@@ -1,7 +1,7 @@
 from opentrons import protocol_api
 
 metadata = {
-    "protocolName": "Serial Dilution Tutorial Neeor",
+    "protocolName": "Enhanced Distribute Neeor",
     "description": """Just following the tutorial of the
                     Python API to get familiar wit the system""",
     "author": "Neeor SURE Program"
@@ -38,12 +38,12 @@ def enhanced_distribute(source, plate, pipette, dispense_volume, disposal_volume
 
 def run (protocol: protocol_api.ProtocolContext):
     enhanced_distribute(
-        protocol.load_labware("nest_12_reservoir_15ml", "2")["A1"],
-        protocol.load_labware("nest_96_wellplate_200ul_flat", "3"),
+        protocol.load_labware("opentrons_10_tuberack_falcon_4x50ml_6x15ml_conical", "2")["A3"],
+        protocol.load_labware("corning_96_wellplate_360ul_flat", "3"),
         protocol.load_instrument(
             "p1000_single_gen2",
             "left",
-            tip_racks=[protocol.load_labware("opentrons_flex_96_tiprack_1000ul", "1")]
+            tip_racks=[protocol.load_labware("opentrons_96_tiprack_1000ul", "1")]
             ),
         100,
         20
