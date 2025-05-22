@@ -3,10 +3,10 @@ from opentrons.types import Point
 import time
 
 metadata = {
-    "protocolName": "Aspiration Tests with Media Change (side)",
+    "protocolName": "Aspiration Tests with Media Change (tilted)",
     "description": """Using OT-2 to aspirate medai from wells to see how much is left
                     in the wells. This is a test to see how much media is left
-                    This is the side version""",
+                    This is the tilted version""",
     "author": "Neeor SURE Program"
 }
 
@@ -64,22 +64,18 @@ def residual_testing_side(source, pipette, plate, well_list):
 
     p1000.drop_tip()
 
-def residual_testing_tilt(source, pipette, plate, plate_tilt, well_list):
+def residual_testing_tilt(source, pipette, plates, well_list):
     reservoir = source
-    plate = plate
-    plate_tilted = plate_tilt
+    plate = plates
     p1000 = pipette
 
     wells_list = well_list
     # wells_list = [w for r in plate.rows() for w in r]
 
-
     p1000.pick_up_tip()
     p1000.transfer(500, reservoir.bottom(10), [wells_list], new_tip="never")
 
-    tilt_wells_list = [w for r in plate_tilted.rows() for w in r]
-
-    for well in tilt_wells_list:
+    for well in wells_list:
         p1000.aspirate(750, well.bottom(1))
         p1000.blow_out(reservoir.top(-5))
 
@@ -92,18 +88,19 @@ def run(protocol: protocol_api.ProtocolContext):
     
     well_plate = protocol.load_labware("corning_24_wellplate_3.4ml_flat", "1")
     # cell_well_plate = protocol.load_labware("corning_24_wellplate_3.4ml_flat_w_cells", "2")
-    # tilt_well_plate = protocol.load_labware("corning_24wp_z17mm_x1mm_rmcalc", "3")
+    tilt_well_plate = protocol.load_labware("corning_24wp_z17mm_x1mm_rmcalc", "3")
     
     well_list = [w for r in well_plate.rows() for w in r]
     # cell_well_list = [w for r in cell_well_plate.rows() for w in r]
-    # tilt_well_list = [w for r in tilt_well_plate.rows() for w in r]
+    
+    tilt_well_list = [w for r in tilt_well_plate.rows() for w in r]
 
     pipette.default_speed = 100
 
     residual_testing_side(
         reservoir,
         pipette,
-        well_plate,
-        well_list
+        tilt_well_plate,
+        tilt_well_list
         )
     
