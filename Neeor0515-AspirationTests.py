@@ -26,6 +26,10 @@ def residual_distribute(source, pipette, plate, well_list):
     p1000.drop_tip()
 
 def residual_testing(source, pipette, plate, well_list):
+    '''
+    For best results make sure when you do this to use the plate with the letters
+    on the left side (or else calibration might be slightly off)
+    '''
     reservoir = source
     plate = plate
     p1000 = pipette
@@ -45,6 +49,10 @@ def residual_testing(source, pipette, plate, well_list):
     p1000.drop_tip()
 
 def residual_testing_side(source, pipette, plate, well_list):
+    '''
+    For best results make sure when you do this to use the plate with the letters
+    on the left side
+    '''
     reservoir = source
     plate = plate
     p1000 = pipette
@@ -65,6 +73,12 @@ def residual_testing_side(source, pipette, plate, well_list):
     p1000.drop_tip()
 
 def residual_testing_tilt(source, pipette, plates, well_list):
+    '''
+    For best results make sure when you do this to use the plate with the letters
+    on the right side, and push the plate all the way to the top left corner
+    (or else calibration might be slightly off)
+    '''
+    
     reservoir = source
     plate = plates
     p1000 = pipette
@@ -82,22 +96,22 @@ def residual_testing_tilt(source, pipette, plates, well_list):
     p1000.drop_tip()
 
 def run(protocol: protocol_api.ProtocolContext):
-    tip_racks=protocol.load_labware("opentrons_96_tiprack_1000ul", "4")
+    tip_racks = protocol.load_labware("opentrons_96_tiprack_1000ul", "4")
     pipette = protocol.load_instrument("p1000_single_gen2", "left", [tip_racks])
     reservoir = protocol.load_labware("opentrons_10_tuberack_falcon_4x50ml_6x15ml_conical", "5")["A3"]
     
-    well_plate = protocol.load_labware("corning_24_wellplate_3.4ml_flat", "1")
-    # cell_well_plate = protocol.load_labware("corning_24_wellplate_3.4ml_flat_w_cells", "2")
-    tilt_well_plate = protocol.load_labware("corning_24wp_z17mm_x1mm_rmcalc", "3")
+    # well_plate = protocol.load_labware("corning_24_wellplate_3.4ml_flat", "1")
+    # cell_well_plate = protocol.load_labware("corning_24_wellplate_3.4ml_flat_w_cells", "1")
+    tilt_well_plate = protocol.load_labware("corning_24wp_z17mm_x1mm_rmcalc", "1")
     
-    well_list = [w for r in well_plate.rows() for w in r]
+    # well_list = [w for r in well_plate.rows() for w in r]
     # cell_well_list = [w for r in cell_well_plate.rows() for w in r]
     
     tilt_well_list = [w for r in tilt_well_plate.rows() for w in r]
 
     pipette.default_speed = 100
 
-    residual_testing_side(
+    residual_testing_tilt(
         reservoir,
         pipette,
         tilt_well_plate,
