@@ -109,15 +109,14 @@ def run(protocol: protocol_api.ProtocolContext):
     # well_list = [w for r in well_plate.rows() for w in r]
     # cell_well_list = [w for r in cell_well_plate.rows() for w in r]
     #tilt_well_list = [w for r in tilt_well_plate.rows() for w in r]
-
-    well_list = tilt_well_plate.rows()[0]
-
     pipette.default_speed = 100
-
-    residual_testing_tilt(
-        reservoir,
-        pipette,
-        tilt_well_plate,
-        well_list
-        )
     
+    for i in range(1, 4):
+        well_list = tilt_well_plate.rows()[i]
+        residual_testing_tilt(
+            reservoir,
+            pipette,
+            tilt_well_plate,
+            well_list
+            )
+        

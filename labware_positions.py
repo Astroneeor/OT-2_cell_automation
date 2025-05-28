@@ -53,30 +53,72 @@ df_rotated.to_excel(excel_path, index=False)
 
 # Prepare OT-2 labware JSON structure
 labware_json = {
+    "ordering": [
+    ["A1","B1","C1","D1"],
+    ["A2","B2","C2","D2"],
+    ["A3","B3","C3","D3"],
+    ["A4","B4","C4","D4"],
+    ["A5","B5","C5","D5"],
+    ["A6","B6","C6","D6"]
+    ],
+    "brand": {
+        "brand": "Corning",
+        "brandId": [
+            "3337",
+            "3524",
+            "3526",
+            "3527",
+            "3473",
+            "3738",
+            "3987"
+        ]
+    },
     "metadata": {
         "displayName": "Tilted Corning 24-Well Plate",
         "displayCategory": "wellPlate",
         "displayVolumeUnits": "µL",
         "tags": [],
     },
-    "brand": {
-        "brand": "custom",
-        "brandId": []
+    "dimensions": {
+    "xDimension": 127.76,
+    "yDimension": 85.47,
+    "zDimension": 37.87
     },
     "parameters": {
         "format": "24WellPlate",
         "isTiprack": False,
         "isMagneticModuleCompatible": False,
-        "loadName": "tilted_24wp_flat"
+        "loadName": "tilted_24wp_16.8mm_flat"
     },
     "wells": {},
-    "groups": [],
+    "groups": [
+        {
+            "metadata": {
+                "wellBottomShape": "flat"
+            },
+            "wells": [
+                "A1","B1","C1","D1",
+                "A2","B2","C2","D2",
+                "A3","B3","C3","D3",
+                "A4","B4","C4","D4",
+                "A5","B5","C5","D5",
+                "A6","B6","C6","D6"
+            ],
+        }
+    ],
+    "parameters": {
+    "format": "irregular",
+    "quirks": [],
+    "loadName": "corning_24wp_z17mm_x1mm_rmcalc"
+  },
+    "namespace": "custom_beta",
+    "version": 1,
+    "schemaVersion": 2,
     "cornerOffsetFromSlot": {
-        "x": 0,
-        "y": 0,
-        "z": 0
-    },
-    "schemaVersion": 2
+    "x": 0,
+    "y": 0,
+    "z": 0
+  }
 }
 
 # Define well dimensions
@@ -92,6 +134,7 @@ for label, x, y, z in rotated_positions:
         "z": round(z, 2),
         "diameter": diameter,
         "depth": depth,
+        "shape" : "circular",
         "totalLiquidVolume": volume
     }
 
