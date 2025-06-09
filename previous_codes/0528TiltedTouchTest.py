@@ -94,8 +94,8 @@ def residual_testing_tilt(source, pipette, plates, well_list):
         p1000.blow_out(reservoir.top(-5))
         p1000.blow_out(reservoir.top(-8))
         p1000.touch_tip(reservoir, v_offset=-8, radius= 0.9, speed=15)
-
-    p1000.drop_tip()
+    
+    pipette.drop_tip()
 
 def run(protocol: protocol_api.ProtocolContext):
     tip_racks = protocol.load_labware("opentrons_96_tiprack_1000ul", "4")
@@ -109,14 +109,18 @@ def run(protocol: protocol_api.ProtocolContext):
     # well_list = [w for r in well_plate.rows() for w in r]
     # cell_well_list = [w for r in cell_well_plate.rows() for w in r]
     #tilt_well_list = [w for r in tilt_well_plate.rows() for w in r]
+    pipette.starting_tip = tip_racks["D1"]
     pipette.default_speed = 100
+    well_list = []
     
-    for i in range(1, 4):
-        well_list = tilt_well_plate.rows()[i]
-        residual_testing_tilt(
+    # Uncomment the following lines to test the different well plates
+    for i in range(6):
+        well_list.extend(tilt_well_plate.columns()[i])
+
+
+    residual_testing_tilt(
             reservoir,
             pipette,
             tilt_well_plate,
             well_list
             )
-        
