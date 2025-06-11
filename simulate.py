@@ -3,6 +3,12 @@
 This module has functions that provide a console entrypoint for simulating
 a protocol from the command line.
 """
+
+"""
+I created this file to help edit the OT-2 simulate to make it more eye candy and more visually readable
+This adds color to the text, a summary table at the end, and a HTML report that opens in the browser
+It's still a work in progress and it is vibe coded
+"""
 import argparse
 import asyncio
 import atexit
