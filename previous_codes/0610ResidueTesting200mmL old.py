@@ -3,8 +3,9 @@ from opentrons.types import Point
 
 
 metadata = {
-    "protocolName": "Residual testing with 96 well plate scanner, Using 2 clips",
-    "description": """This uses the 16.8mm and 17mm clips to lift hte plates and testing their residual volume using imitation fluid""",
+    "protocolName": "Residual testing with 96 well plate scanner, Using 2 clips 200uL June 11 2025",
+    "description": """This uses the this uses the 16.8mm to lift hte plates and testing their residual volume using imitation fluid
+    and then adding buffer to the wells. This is used for the 200mmL in the plate scanner. it's slightly sus but bare with me gang""",
     "author": "Neeor Program Yes"
 }
 
@@ -74,26 +75,27 @@ def run(protocol: protocol_api.ProtocolContext):
 
     well_plate_reader = protocol.load_labware("corning_96_wellplate_360ul_flat", "3")
     
-    tilt_well_plate_16 = protocol.load_labware("168mm_lifted_24wp_flat", "1")
-    tilt_well_list_16 = [w for r in tilt_well_plate_16.rows() for w in r]
+    tilt_well_plate_1 = protocol.load_labware("corning_24wp_z16_8mm_d6_depth0", "1")
+    tilt_well_list_1 = [w for r in tilt_well_plate_1.rows() for w in r]
 
-    tilt_well_plate_17 = protocol.load_labware("corning_24wp_z17mm_x1mm_rmcalc", "2")
-    tilt_well_list_17 = [w for r in tilt_well_plate_16.rows() for w in r]
+    tilt_well_plate_2 = protocol.load_labware("corning_24wp_z16_8mm_d6_depth0", "2")
+    tilt_well_list_2 = [w for r in tilt_well_plate_2.rows() for w in r]
 
     pipette.default_speed = 100
-    pipette.starting_tip = tip_racks["D2"]
+    pipette.starting_tip = tip_racks["H3"]
 
-    residual_testing(media_reservoir, pipette, tilt_well_list_16)
+    residual_testing(media_reservoir, pipette, tilt_well_list_1)
+    residual_testing(media_reservoir, pipette, tilt_well_list_2)
+    
     protocol.pause("Go weigh the plate you bafoon.")
-    adding_buffer(buffer_reservoir, pipette, tilt_well_list_16)
+    
+    adding_buffer(buffer_reservoir, pipette, tilt_well_list_1)
+    adding_buffer(buffer_reservoir, pipette, tilt_well_list_2)
+    
     protocol.pause("Please shake the well plate and place it back after mixing.")
-    transfer_to_reader(tilt_well_plate_16, well_plate_reader, pipette, 1)
-
-    residual_testing(media_reservoir, pipette, tilt_well_list_17)
-    protocol.pause("Go weigh the plate you bafoon.")
-    adding_buffer(buffer_reservoir, pipette, tilt_well_list_17)
-    protocol.pause("Please shake the well plate and place it back after mixing.")
-    transfer_to_reader(tilt_well_plate_17, well_plate_reader, pipette, 2)
+    
+    transfer_to_reader(tilt_well_plate_1, well_plate_reader, pipette, 3)
+    transfer_to_reader(tilt_well_plate_2, well_plate_reader, pipette, 4)
 
 
 
