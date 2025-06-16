@@ -11,15 +11,14 @@ metadata = {
 
 requirements = {"robotType": "OT-2", "apiLevel": "2.22"}
 
-def residual_testing(source, pipette, well_list):
+def residual_testing(source, pipette, well_plate):
     '''
     For best results make sure when you do this to use the plate with the letters
     on the left side
     '''
     reservoir = source
     p1000 = pipette
-
-    wells_list = well_list
+    wells_list = [w for r in well_plate.rows() for w in r]
 
     p1000.pick_up_tip()
     
@@ -32,12 +31,12 @@ def residual_testing(source, pipette, well_list):
  
     p1000.drop_tip()
 
-def adding_buffer(source, pipette, well_list):
+def adding_buffer(source, pipette, well_plate):
     reservoir = source
     p1000 = pipette
-    wells_list = well_list
+    well_list = [w for r in well_plate.rows() for w in r]
 
-    bottom_wells = [w.bottom(1) for w in wells_list]  
+    bottom_wells = [w.bottom(1) for w in well_list]  
 
     p1000.pick_up_tip()
     p1000.distribute(200, reservoir.bottom(5), [bottom_wells], new_tip="never")
@@ -87,12 +86,12 @@ def run(protocol: protocol_api.ProtocolContext):
     residual_testing(media_reservoir, pipette, tilt_well_list_1)
     residual_testing(media_reservoir, pipette, tilt_well_list_2)
     
-    protocol.pause("Go weigh the plate you bafoon.")
+    protocol.pause("Go weigh the plates you bafoon.")
     
     adding_buffer(buffer_reservoir, pipette, tilt_well_list_1)
     adding_buffer(buffer_reservoir, pipette, tilt_well_list_2)
     
-    protocol.pause("Please shake the well plate and place it back after mixing.")
+    protocol.pause("Please shake the well plates and place it back after mixing.")
     
     transfer_to_reader(tilt_well_plate_1, well_plate_reader, pipette, 3)
     transfer_to_reader(tilt_well_plate_2, well_plate_reader, pipette, 4)

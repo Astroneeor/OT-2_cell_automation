@@ -119,25 +119,141 @@ def add_parameters(parameters):
         description="Select the starting tip position in the tip rack",
     )
 
-
 metadata = {
-    "protocolName": "Offset Test, so nothing happens",
-    "description": """USe this to test manual offset positions when needed""",
-    "author": "Neeor SURE Program"
+    "protocolName": "Residual testing with 96 well plate scanner, Using 4 plates at a time for a full read",
+    "description": """Uses 180uL of fluid and has blanks and controls for testing""",
+    "author": "Neeor Program Yes"
 }
 
 requirements = {"robotType": "OT-2", "apiLevel": "2.22"}
 
+def residual_testing(source, pipette, well_plate):
+    '''
+    For best results make sure when you do this to use the plate with the letters
+    on the left side
+    '''
+    reservoir = source
+    p1000 = pipette
+
+    # p1000.pick_up_tip()
+    for x in range(4):
+        for y in range(5):
+            height = 2.2 - 0.2 * y
+            well_b = well_plate.rows()[x][y].bottom(height)
+            p1000.transfer(500, reservoir.bottom(5), well_b, new_tip="never")
+            p1000.blow_out(reservoir.top(-8))
+            p1000.aspirate(1000, well_b)
+            p1000.blow_out(reservoir.top(-8))
+            p1000.touch_tip(reservoir, v_offset=-8, radius= 0.9)
+    
+    for x in range(4):
+        well = well_plate.columns()[5][x]
+        if x < 2:
+            p1000.transfer(5, reservoir.bottom(5), well.bottom(1), new_tip="never")
+        elif x == 2:
+            p1000.transfer(10, reservoir.bottom(5), well.bottom(1), new_tip="never")
+        else:
+            continue  # Skip the last well in the column
+ 
+    # p1000.drop_tip()
+
+def legacy_residual_testing(source, pipette, well_plate):
+    '''
+    For best results make sure when you do this to use the plate with the letters
+    on the left side
+    '''
+    reservoir = source
+    p1000 = pipette
+    well_list = [w for r in well_plate.rows() for w in r]
+
+    # p1000.pick_up_tip()
+    
+    for well in well_list:
+        p1000.transfer(500, reservoir.bottom(5), well.bottom(1), new_tip="never")
+        p1000.aspirate(100, well.bottom(1))
+        p1000.blow_out(reservoir.top(-8))
+        p1000.touch_tip(reservoir, v_offset=-8, radius= 0.9)
+ 
+    # p1000.drop_tip()
+
+def adding_buffer(source, pipette, well_plate):
+    reservoir = source
+    p1000 = pipette
+    
+    bottom_wells = [
+        well.bottom(2.2 - 0.2 * col_idx)
+        for row in well_plate.rows()
+        for col_idx, well in enumerate(row)
+    ]
+
+    # p1000.pick_up_tip()
+    p1000.distribute(200, reservoir.bottom(5), [bottom_wells], new_tip="never")
+    # p1000.drop_tip()
+
+def transfer_to_reader(source_plate, read_plate, pipette, plate_number):
+    source = source_plate
+    read = read_plate
+    quadrant = plate_number
+    p1000 = pipette
+    # p1000.pick_up_tip()
+
+    for x in range(6):
+        if quadrant < 3: x_read = x + (quadrant * 6) - 6
+        else: x_read = x + (quadrant * 6) - 18
+        height = 2.2 - 0.2 * x
+        
+        for y in range(4):
+            if quadrant < 3: y_read = y
+            else: y_read = y + 4
+
+            p1000.mix(3, 100, source.columns()[x][y].bottom(height + 0.5), 2)
+            p1000.transfer(180, source.columns()[x][y].bottom(height), read.columns()[x_read][y_read], new_tip="never")
+        
+    # p1000.drop_tip()
+
 def run(protocol: protocol_api.ProtocolContext):
     STARTING_TIP = protocol.params.starting_tip
-
-    tip_racks = protocol.load_labware("opentrons_96_tiprack_1000ul", "4")
+    tip_racks = protocol.load_labware("opentrons_96_tiprack_1000ul", "7")
     pipette = protocol.load_instrument("p1000_single_gen2", "left", [tip_racks])
-    tilt_well_plate = protocol.load_labware("corning_24wp_z16_8mm_d6_depth0", "1")
-    pipette.home_plunger()
-    protocol.home()
+    reservoir = protocol.load_labware("opentrons_10_tuberack_falcon_4x50ml_6x15ml_conical", "8")
+    
+    
+    media_reservoir = reservoir["A3"]
+    buffer_reservoir = reservoir["A4"]
 
-    pipette.starting_tip = tip_racks[STARTING_TIP]
 
-    pipette.pick_up_tip()
-    pipette.return_tip()
+    well_plate_reader = protocol.load_labware("corning_96_wellplate_360ul_flat", "3")
+    
+    tilt_well_plate_1 = protocol.load_labware("corning_24wp_z16_8mm_d6_depth0", "4")
+    tilt_well_plate_2 = protocol.load_labware("corning_24wp_z16_8mm_d6_depth0", "5")
+    tilt_well_plate_3 = protocol.load_labware("corning_24wp_z16_8mm_d6_depth0", "1")
+    tilt_well_plate_4 = protocol.load_labware("corning_24wp_z17mm_x1mm_rmcalc", "2")
+
+    pipette.default_speed = 200
+    pipette.starting_tip = tip_racks.wells_by_name()[STARTING_TIP]
+
+    pipette.pick_up_tip()    
+    residual_testing(media_reservoir, pipette, tilt_well_plate_1)
+    residual_testing(media_reservoir, pipette, tilt_well_plate_2)
+    residual_testing(media_reservoir, pipette, tilt_well_plate_3)
+    legacy_residual_testing(media_reservoir, pipette, tilt_well_plate_4)
+    pipette.drop_tip()
+
+    protocol.pause("Go weigh the plates you bafoon.")
+    
+    pipette.pick_up_tip()    
+    adding_buffer(buffer_reservoir, pipette, tilt_well_plate_1)
+    adding_buffer(buffer_reservoir, pipette, tilt_well_plate_2)
+    adding_buffer(buffer_reservoir, pipette, tilt_well_plate_3)
+    adding_buffer(buffer_reservoir, pipette, tilt_well_plate_4)
+    pipette.drop_tip()
+
+    protocol.pause("Please shake the well plates and place it back after mixing.")
+    
+    pipette.pick_up_tip()    
+    transfer_to_reader(tilt_well_plate_1, well_plate_reader, pipette, 1)
+    transfer_to_reader(tilt_well_plate_2, well_plate_reader, pipette, 2)
+    transfer_to_reader(tilt_well_plate_3, well_plate_reader, pipette, 3)
+    transfer_to_reader(tilt_well_plate_4, well_plate_reader, pipette, 4)
+    pipette.drop_tip()
+    protocol.comment("Protocol complete. Please proceed with the next steps.")
