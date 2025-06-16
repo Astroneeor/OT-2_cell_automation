@@ -138,7 +138,7 @@ def residual_testing(source, pipette, well_plate):
     # p1000.pick_up_tip()
     for x in range(4):
         for y in range(5):
-            height = 2.2 - 0.2 * y
+            height = 1.7 - 0.2 * y
             well_b = well_plate.rows()[x][y].bottom(height)
             p1000.transfer(500, reservoir.bottom(5), well_b, new_tip="never")
             p1000.blow_out(reservoir.top(-8))
@@ -170,7 +170,7 @@ def legacy_residual_testing(source, pipette, well_plate):
     
     for well in well_list:
         p1000.transfer(500, reservoir.bottom(5), well.bottom(1), new_tip="never")
-        p1000.aspirate(100, well.bottom(1))
+        p1000.aspirate(1000, well.bottom(1))
         p1000.blow_out(reservoir.top(-8))
         p1000.touch_tip(reservoir, v_offset=-8, radius= 0.9)
  
@@ -181,7 +181,7 @@ def adding_buffer(source, pipette, well_plate):
     p1000 = pipette
     
     bottom_wells = [
-        well.bottom(2.2 - 0.2 * col_idx)
+        well.bottom(1.7 - 0.2 * col_idx)
         for row in well_plate.rows()
         for col_idx, well in enumerate(row)
     ]
@@ -200,14 +200,14 @@ def transfer_to_reader(source_plate, read_plate, pipette, plate_number):
     for x in range(6):
         if quadrant < 3: x_read = x + (quadrant * 6) - 6
         else: x_read = x + (quadrant * 6) - 18
-        height = 2.2 - 0.2 * x
+        height = 1.7 - 0.2 * x
         
         for y in range(4):
             if quadrant < 3: y_read = y
             else: y_read = y + 4
 
-            p1000.mix(3, 100, source.columns()[x][y].bottom(height + 0.5), 2)
-            p1000.transfer(180, source.columns()[x][y].bottom(height), read.columns()[x_read][y_read], new_tip="never")
+            p1000.mix(3, 100, source.columns()[x][y].bottom(height), 2)
+            p1000.transfer(180, source.columns()[x][y].bottom(height - 0.5), read.columns()[x_read][y_read], new_tip="never")
         
     # p1000.drop_tip()
 
@@ -232,11 +232,11 @@ def run(protocol: protocol_api.ProtocolContext):
     pipette.default_speed = 200
     pipette.starting_tip = tip_racks.wells_by_name()[STARTING_TIP]
 
-    pipette.pick_up_tip()    
+    pipette.pick_up_tip()
     residual_testing(media_reservoir, pipette, tilt_well_plate_1)
     residual_testing(media_reservoir, pipette, tilt_well_plate_2)
     residual_testing(media_reservoir, pipette, tilt_well_plate_3)
-    legacy_residual_testing(media_reservoir, pipette, tilt_well_plate_4)
+    # legacy_residual_testing(media_reservoir, pipette, tilt_well_plate_4)
     pipette.drop_tip()
 
     protocol.pause("Go weigh the plates you bafoon.")
@@ -245,7 +245,7 @@ def run(protocol: protocol_api.ProtocolContext):
     adding_buffer(buffer_reservoir, pipette, tilt_well_plate_1)
     adding_buffer(buffer_reservoir, pipette, tilt_well_plate_2)
     adding_buffer(buffer_reservoir, pipette, tilt_well_plate_3)
-    adding_buffer(buffer_reservoir, pipette, tilt_well_plate_4)
+    # adding_buffer(buffer_reservoir, pipette, tilt_well_plate_4)
     pipette.drop_tip()
 
     protocol.pause("Please shake the well plates and place it back after mixing.")
@@ -254,6 +254,6 @@ def run(protocol: protocol_api.ProtocolContext):
     transfer_to_reader(tilt_well_plate_1, well_plate_reader, pipette, 1)
     transfer_to_reader(tilt_well_plate_2, well_plate_reader, pipette, 2)
     transfer_to_reader(tilt_well_plate_3, well_plate_reader, pipette, 3)
-    transfer_to_reader(tilt_well_plate_4, well_plate_reader, pipette, 4)
+    # transfer_to_reader(tilt_well_plate_4, well_plate_reader, pipette, 4)
     pipette.drop_tip()
     protocol.comment("Protocol complete. Please proceed with the next steps.")
