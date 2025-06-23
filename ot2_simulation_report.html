@@ -1,0 +1,453 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>OT-2 Simulation Summary</title>
+  <style>
+    body { font-family: sans-serif; padding: 1rem; }
+    table { border-collapse: collapse; width: 100%; margin-bottom: 1.5rem; }
+    th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: left; }
+    th { background: #f4f4f4; }
+    /* color classes matching your terminal mapping */
+    .pick  { color: cyan; }
+    .asp   { color: blue; }
+    .disp  { color: green; }
+    .trans { color: goldenrod; }
+    .blow  { color: magenta; }
+    .touch { color: lightgray; }
+    .pause { color: red; }
+    .well  { color: lightgray; font-weight: bold; }
+    details pre { max-height: 400px; overflow: auto; 
+                  background: #f8f8f8; padding: 0.5rem; }
+  </style>
+</head>
+<body>
+  <h1>OT-2 Simulation Summary</h1>
+  <p><em>Generated on 2025-06-23 15:43:43</em></p>
+
+  <h2>Per-Labware Well Usage</h2>
+  <table>
+    <thead><tr><th>Labware</th><th>Aspirated Wells</th><th>Dispensed Wells</th></tr></thead>
+    <tbody>
+      <tr><td>Corning 24 Well Plate 3.4 mL Flat</td><td>A1, A2, A3, A4, A5, A6, B1, B2, B3, B4, B5, B6, C1, C2, C3, C4, C5, C6</td><td>A1, A2, A3, A4, A5, A6, B1, B2, B3, B4, B5, B6, C1, C2, C3, C4, C5, C6, D1, D2, D3, D4, D5, D6</td></tr><tr><td>Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical</td><td>A3, A4</td><td>&lt;none&gt;</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Falcon Rack Volumes</h2>
+  <table>
+    <thead><tr><th>Well</th><th>Volume (µL)</th></tr></thead>
+    <tbody>
+      <tr><td>A3</td><td>9510</td></tr><tr><td>A4</td><td>200</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Tip Count</h2>
+  <p><strong>Total tips picked up:</strong> 6</p>
+
+  <h2>Full Simulation Log</h2>
+  <details>
+    <summary>Show/hide full console output</summary>
+    <pre><span class="pause">Pausing robot operation</span>: Are the plates weighed yet?
+<span class="pick">Picking up tip</span> from <span class="well">A1</span> of Opentrons OT-2 96 Tip Rack 1000 µL on slot 7
+<span class="trans">Transferring</span> 500.0 from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 to <span class="well">A1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9
+	<span class="asp">Aspirating</span> 500.0 uL from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 500.0 uL into <span class="well">A1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="asp">Aspirating</span> 1000.0 uL from <span class="well">A1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="blow">Blowing out</span> at <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8
+<span class="touch">Touching tip</span>
+<span class="trans">Transferring</span> 500.0 from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 to <span class="well">A2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9
+	<span class="asp">Aspirating</span> 500.0 uL from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 500.0 uL into <span class="well">A2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="asp">Aspirating</span> 1000.0 uL from <span class="well">A2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="blow">Blowing out</span> at <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8
+<span class="touch">Touching tip</span>
+<span class="trans">Transferring</span> 500.0 from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 to <span class="well">A3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9
+	<span class="asp">Aspirating</span> 500.0 uL from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 500.0 uL into <span class="well">A3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="asp">Aspirating</span> 1000.0 uL from <span class="well">A3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="blow">Blowing out</span> at <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8
+<span class="touch">Touching tip</span>
+<span class="trans">Transferring</span> 500.0 from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 to <span class="well">A4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9
+	<span class="asp">Aspirating</span> 500.0 uL from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 500.0 uL into <span class="well">A4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="asp">Aspirating</span> 1000.0 uL from <span class="well">A4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="blow">Blowing out</span> at <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8
+<span class="touch">Touching tip</span>
+<span class="trans">Transferring</span> 500.0 from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 to <span class="well">A5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9
+	<span class="asp">Aspirating</span> 500.0 uL from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 500.0 uL into <span class="well">A5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="asp">Aspirating</span> 1000.0 uL from <span class="well">A5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="blow">Blowing out</span> at <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8
+<span class="touch">Touching tip</span>
+<span class="trans">Transferring</span> 500.0 from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 to <span class="well">A6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9
+	<span class="asp">Aspirating</span> 500.0 uL from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 500.0 uL into <span class="well">A6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="asp">Aspirating</span> 1000.0 uL from <span class="well">A6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="blow">Blowing out</span> at <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8
+<span class="touch">Touching tip</span>
+<span class="trans">Transferring</span> 500.0 from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 to <span class="well">B1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9
+	<span class="asp">Aspirating</span> 500.0 uL from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 500.0 uL into <span class="well">B1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="asp">Aspirating</span> 1000.0 uL from <span class="well">B1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="blow">Blowing out</span> at <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8
+<span class="touch">Touching tip</span>
+<span class="trans">Transferring</span> 500.0 from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 to <span class="well">B2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9
+	<span class="asp">Aspirating</span> 500.0 uL from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 500.0 uL into <span class="well">B2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="asp">Aspirating</span> 1000.0 uL from <span class="well">B2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="blow">Blowing out</span> at <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8
+<span class="touch">Touching tip</span>
+<span class="trans">Transferring</span> 500.0 from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 to <span class="well">B3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9
+	<span class="asp">Aspirating</span> 500.0 uL from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 500.0 uL into <span class="well">B3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="asp">Aspirating</span> 1000.0 uL from <span class="well">B3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="blow">Blowing out</span> at <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8
+<span class="touch">Touching tip</span>
+<span class="trans">Transferring</span> 500.0 from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 to <span class="well">B4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9
+	<span class="asp">Aspirating</span> 500.0 uL from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 500.0 uL into <span class="well">B4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="asp">Aspirating</span> 1000.0 uL from <span class="well">B4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="blow">Blowing out</span> at <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8
+<span class="touch">Touching tip</span>
+<span class="trans">Transferring</span> 500.0 from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 to <span class="well">B5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9
+	<span class="asp">Aspirating</span> 500.0 uL from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 500.0 uL into <span class="well">B5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="asp">Aspirating</span> 1000.0 uL from <span class="well">B5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="blow">Blowing out</span> at <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8
+<span class="touch">Touching tip</span>
+<span class="trans">Transferring</span> 500.0 from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 to <span class="well">B6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9
+	<span class="asp">Aspirating</span> 500.0 uL from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 500.0 uL into <span class="well">B6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="asp">Aspirating</span> 1000.0 uL from <span class="well">B6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="blow">Blowing out</span> at <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8
+<span class="touch">Touching tip</span>
+<span class="trans">Transferring</span> 500.0 from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 to <span class="well">C1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9
+	<span class="asp">Aspirating</span> 500.0 uL from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 500.0 uL into <span class="well">C1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="asp">Aspirating</span> 1000.0 uL from <span class="well">C1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="blow">Blowing out</span> at <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8
+<span class="touch">Touching tip</span>
+<span class="trans">Transferring</span> 500.0 from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 to <span class="well">C2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9
+	<span class="asp">Aspirating</span> 500.0 uL from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 500.0 uL into <span class="well">C2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="asp">Aspirating</span> 1000.0 uL from <span class="well">C2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="blow">Blowing out</span> at <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8
+<span class="touch">Touching tip</span>
+<span class="trans">Transferring</span> 500.0 from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 to <span class="well">C3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9
+	<span class="asp">Aspirating</span> 500.0 uL from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 500.0 uL into <span class="well">C3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="asp">Aspirating</span> 1000.0 uL from <span class="well">C3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="blow">Blowing out</span> at <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8
+<span class="touch">Touching tip</span>
+<span class="trans">Transferring</span> 500.0 from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 to <span class="well">C4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9
+	<span class="asp">Aspirating</span> 500.0 uL from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 500.0 uL into <span class="well">C4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="asp">Aspirating</span> 1000.0 uL from <span class="well">C4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="blow">Blowing out</span> at <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8
+<span class="touch">Touching tip</span>
+<span class="trans">Transferring</span> 500.0 from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 to <span class="well">C5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9
+	<span class="asp">Aspirating</span> 500.0 uL from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 500.0 uL into <span class="well">C5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="asp">Aspirating</span> 1000.0 uL from <span class="well">C5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="blow">Blowing out</span> at <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8
+<span class="touch">Touching tip</span>
+<span class="trans">Transferring</span> 500.0 from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 to <span class="well">C6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9
+	<span class="asp">Aspirating</span> 500.0 uL from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 500.0 uL into <span class="well">C6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="asp">Aspirating</span> 1000.0 uL from <span class="well">C6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="blow">Blowing out</span> at <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8
+<span class="touch">Touching tip</span>
+<span class="trans">Transferring</span> 0.0 from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 to <span class="well">D1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9
+<span class="trans">Transferring</span> 10.0 from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 to <span class="well">D2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9
+	<span class="asp">Aspirating</span> 10.0 uL from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 10.0 uL into <span class="well">D2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="trans">Transferring</span> 50.0 from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 to <span class="well">D3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9
+	<span class="asp">Aspirating</span> 50.0 uL from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 50.0 uL into <span class="well">D3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="trans">Transferring</span> 150.0 from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 to <span class="well">D4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9
+	<span class="asp">Aspirating</span> 150.0 uL from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 150.0 uL into <span class="well">D4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="trans">Transferring</span> 300.0 from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 to <span class="well">D5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9
+	<span class="asp">Aspirating</span> 300.0 uL from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 300.0 uL into <span class="well">D5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+<span class="trans">Transferring</span> 0.0 from <span class="well">A3</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 to <span class="well">D6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9
+<span class="pick">Dropping tip</span> into Trash Bin on slot 12
+<span class="pause">Pausing robot operation</span>: Go weigh the plates you bafoon.
+<span class="pick">Picking up tip</span> from <span class="well">B1</span> of Opentrons OT-2 96 Tip Rack 1000 µL on slot 7
+Distributing 200.0 from <span class="well">A4</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 to <span class="well">A1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9
+	<span class="trans">Transferring</span> 200.0 from <span class="well">A4</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 to <span class="well">A1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9
+		<span class="asp">Aspirating</span> 825.0 uL from <span class="well">A4</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 at 274.7 uL/sec
+		<span class="disp">Dispensing</span> 200.0 uL into <span class="well">A1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+		<span class="disp">Dispensing</span> 200.0 uL into <span class="well">A2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+		<span class="disp">Dispensing</span> 200.0 uL into <span class="well">A3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+		<span class="disp">Dispensing</span> 200.0 uL into <span class="well">A4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+		<span class="blow">Blowing out</span> into Trash Bin on slot 12
+		<span class="asp">Aspirating</span> 825.0 uL from <span class="well">A4</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 at 274.7 uL/sec
+		<span class="disp">Dispensing</span> 200.0 uL into <span class="well">A5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+		<span class="disp">Dispensing</span> 200.0 uL into <span class="well">A6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+		<span class="disp">Dispensing</span> 200.0 uL into <span class="well">B1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+		<span class="disp">Dispensing</span> 200.0 uL into <span class="well">B2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+		<span class="blow">Blowing out</span> into Trash Bin on slot 12
+		<span class="asp">Aspirating</span> 825.0 uL from <span class="well">A4</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 at 274.7 uL/sec
+		<span class="disp">Dispensing</span> 200.0 uL into <span class="well">B3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+		<span class="disp">Dispensing</span> 200.0 uL into <span class="well">B4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+		<span class="disp">Dispensing</span> 200.0 uL into <span class="well">B5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+		<span class="disp">Dispensing</span> 200.0 uL into <span class="well">B6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+		<span class="blow">Blowing out</span> into Trash Bin on slot 12
+		<span class="asp">Aspirating</span> 825.0 uL from <span class="well">A4</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 at 274.7 uL/sec
+		<span class="disp">Dispensing</span> 200.0 uL into <span class="well">C1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+		<span class="disp">Dispensing</span> 200.0 uL into <span class="well">C2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+		<span class="disp">Dispensing</span> 200.0 uL into <span class="well">C3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+		<span class="disp">Dispensing</span> 200.0 uL into <span class="well">C4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+		<span class="blow">Blowing out</span> into Trash Bin on slot 12
+		<span class="asp">Aspirating</span> 825.0 uL from <span class="well">A4</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 at 274.7 uL/sec
+		<span class="disp">Dispensing</span> 200.0 uL into <span class="well">C5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+		<span class="disp">Dispensing</span> 200.0 uL into <span class="well">C6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+		<span class="disp">Dispensing</span> 200.0 uL into <span class="well">D1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+		<span class="disp">Dispensing</span> 200.0 uL into <span class="well">D2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+		<span class="blow">Blowing out</span> into Trash Bin on slot 12
+		<span class="asp">Aspirating</span> 825.0 uL from <span class="well">A4</span> of Opentrons 10 Tube Rack with Falcon 4x50 mL, 6x15 mL Conical on slot 8 at 274.7 uL/sec
+		<span class="disp">Dispensing</span> 200.0 uL into <span class="well">D3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+		<span class="disp">Dispensing</span> 200.0 uL into <span class="well">D4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+		<span class="disp">Dispensing</span> 200.0 uL into <span class="well">D5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+		<span class="disp">Dispensing</span> 200.0 uL into <span class="well">D6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+		<span class="blow">Blowing out</span> into Trash Bin on slot 12
+<span class="pick">Dropping tip</span> into Trash Bin on slot 12
+<span class="pause">Pausing robot operation</span>: Please shake the well plates and place it back after mixing.
+<span class="pick">Picking up tip</span> from <span class="well">C1</span> of Opentrons OT-2 96 Tip Rack 1000 µL on slot 7
+Mixing 3 times with a volume of 100.0 ul
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">A1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">A1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">A1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">A1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">A1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">A1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+<span class="trans">Transferring</span> 180.0 from <span class="well">A1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 to <span class="well">E7</span> of Corning 96 Well Plate 360 µL Flat on slot 3
+	<span class="asp">Aspirating</span> 180.0 uL from <span class="well">A1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 180.0 uL into <span class="well">E7</span> of Corning 96 Well Plate 360 µL Flat on slot 3 at 274.7 uL/sec
+Mixing 3 times with a volume of 100.0 ul
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">B1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">B1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">B1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">B1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">B1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">B1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+<span class="trans">Transferring</span> 180.0 from <span class="well">B1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 to <span class="well">F7</span> of Corning 96 Well Plate 360 µL Flat on slot 3
+	<span class="asp">Aspirating</span> 180.0 uL from <span class="well">B1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 180.0 uL into <span class="well">F7</span> of Corning 96 Well Plate 360 µL Flat on slot 3 at 274.7 uL/sec
+Mixing 3 times with a volume of 100.0 ul
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">C1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">C1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">C1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">C1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">C1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">C1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+<span class="trans">Transferring</span> 180.0 from <span class="well">C1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 to <span class="well">G7</span> of Corning 96 Well Plate 360 µL Flat on slot 3
+	<span class="asp">Aspirating</span> 180.0 uL from <span class="well">C1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 180.0 uL into <span class="well">G7</span> of Corning 96 Well Plate 360 µL Flat on slot 3 at 274.7 uL/sec
+Mixing 3 times with a volume of 100.0 ul
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">D1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">D1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">D1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">D1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">D1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">D1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+<span class="trans">Transferring</span> 180.0 from <span class="well">D1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 to <span class="well">H7</span> of Corning 96 Well Plate 360 µL Flat on slot 3
+	<span class="asp">Aspirating</span> 180.0 uL from <span class="well">D1</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 180.0 uL into <span class="well">H7</span> of Corning 96 Well Plate 360 µL Flat on slot 3 at 274.7 uL/sec
+Mixing 3 times with a volume of 100.0 ul
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">A2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">A2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">A2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">A2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">A2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">A2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+<span class="trans">Transferring</span> 180.0 from <span class="well">A2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 to <span class="well">E8</span> of Corning 96 Well Plate 360 µL Flat on slot 3
+	<span class="asp">Aspirating</span> 180.0 uL from <span class="well">A2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 180.0 uL into <span class="well">E8</span> of Corning 96 Well Plate 360 µL Flat on slot 3 at 274.7 uL/sec
+Mixing 3 times with a volume of 100.0 ul
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">B2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">B2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">B2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">B2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">B2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">B2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+<span class="trans">Transferring</span> 180.0 from <span class="well">B2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 to <span class="well">F8</span> of Corning 96 Well Plate 360 µL Flat on slot 3
+	<span class="asp">Aspirating</span> 180.0 uL from <span class="well">B2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 180.0 uL into <span class="well">F8</span> of Corning 96 Well Plate 360 µL Flat on slot 3 at 274.7 uL/sec
+Mixing 3 times with a volume of 100.0 ul
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">C2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">C2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">C2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">C2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">C2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">C2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+<span class="trans">Transferring</span> 180.0 from <span class="well">C2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 to <span class="well">G8</span> of Corning 96 Well Plate 360 µL Flat on slot 3
+	<span class="asp">Aspirating</span> 180.0 uL from <span class="well">C2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 180.0 uL into <span class="well">G8</span> of Corning 96 Well Plate 360 µL Flat on slot 3 at 274.7 uL/sec
+Mixing 3 times with a volume of 100.0 ul
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">D2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">D2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">D2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">D2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">D2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">D2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+<span class="trans">Transferring</span> 180.0 from <span class="well">D2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 to <span class="well">H8</span> of Corning 96 Well Plate 360 µL Flat on slot 3
+	<span class="asp">Aspirating</span> 180.0 uL from <span class="well">D2</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 180.0 uL into <span class="well">H8</span> of Corning 96 Well Plate 360 µL Flat on slot 3 at 274.7 uL/sec
+Mixing 3 times with a volume of 100.0 ul
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">A3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">A3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">A3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">A3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">A3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">A3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+<span class="trans">Transferring</span> 180.0 from <span class="well">A3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 to <span class="well">E9</span> of Corning 96 Well Plate 360 µL Flat on slot 3
+	<span class="asp">Aspirating</span> 180.0 uL from <span class="well">A3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 180.0 uL into <span class="well">E9</span> of Corning 96 Well Plate 360 µL Flat on slot 3 at 274.7 uL/sec
+Mixing 3 times with a volume of 100.0 ul
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">B3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">B3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">B3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">B3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">B3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">B3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+<span class="trans">Transferring</span> 180.0 from <span class="well">B3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 to <span class="well">F9</span> of Corning 96 Well Plate 360 µL Flat on slot 3
+	<span class="asp">Aspirating</span> 180.0 uL from <span class="well">B3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 180.0 uL into <span class="well">F9</span> of Corning 96 Well Plate 360 µL Flat on slot 3 at 274.7 uL/sec
+Mixing 3 times with a volume of 100.0 ul
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">C3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">C3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">C3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">C3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">C3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">C3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+<span class="trans">Transferring</span> 180.0 from <span class="well">C3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 to <span class="well">G9</span> of Corning 96 Well Plate 360 µL Flat on slot 3
+	<span class="asp">Aspirating</span> 180.0 uL from <span class="well">C3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 180.0 uL into <span class="well">G9</span> of Corning 96 Well Plate 360 µL Flat on slot 3 at 274.7 uL/sec
+Mixing 3 times with a volume of 100.0 ul
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">D3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">D3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">D3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">D3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">D3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">D3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+<span class="trans">Transferring</span> 180.0 from <span class="well">D3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 to <span class="well">H9</span> of Corning 96 Well Plate 360 µL Flat on slot 3
+	<span class="asp">Aspirating</span> 180.0 uL from <span class="well">D3</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 180.0 uL into <span class="well">H9</span> of Corning 96 Well Plate 360 µL Flat on slot 3 at 274.7 uL/sec
+Mixing 3 times with a volume of 100.0 ul
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">A4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">A4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">A4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">A4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">A4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">A4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+<span class="trans">Transferring</span> 180.0 from <span class="well">A4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 to <span class="well">E10</span> of Corning 96 Well Plate 360 µL Flat on slot 3
+	<span class="asp">Aspirating</span> 180.0 uL from <span class="well">A4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 180.0 uL into <span class="well">E10</span> of Corning 96 Well Plate 360 µL Flat on slot 3 at 274.7 uL/sec
+Mixing 3 times with a volume of 100.0 ul
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">B4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">B4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">B4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">B4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">B4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">B4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+<span class="trans">Transferring</span> 180.0 from <span class="well">B4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 to <span class="well">F10</span> of Corning 96 Well Plate 360 µL Flat on slot 3
+	<span class="asp">Aspirating</span> 180.0 uL from <span class="well">B4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 180.0 uL into <span class="well">F10</span> of Corning 96 Well Plate 360 µL Flat on slot 3 at 274.7 uL/sec
+Mixing 3 times with a volume of 100.0 ul
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">C4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">C4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">C4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">C4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">C4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">C4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+<span class="trans">Transferring</span> 180.0 from <span class="well">C4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 to <span class="well">G10</span> of Corning 96 Well Plate 360 µL Flat on slot 3
+	<span class="asp">Aspirating</span> 180.0 uL from <span class="well">C4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 180.0 uL into <span class="well">G10</span> of Corning 96 Well Plate 360 µL Flat on slot 3 at 274.7 uL/sec
+Mixing 3 times with a volume of 100.0 ul
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">D4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">D4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">D4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">D4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">D4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">D4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+<span class="trans">Transferring</span> 180.0 from <span class="well">D4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 to <span class="well">H10</span> of Corning 96 Well Plate 360 µL Flat on slot 3
+	<span class="asp">Aspirating</span> 180.0 uL from <span class="well">D4</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 180.0 uL into <span class="well">H10</span> of Corning 96 Well Plate 360 µL Flat on slot 3 at 274.7 uL/sec
+Mixing 3 times with a volume of 100.0 ul
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">A5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">A5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">A5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">A5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">A5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">A5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+<span class="trans">Transferring</span> 180.0 from <span class="well">A5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 to <span class="well">E11</span> of Corning 96 Well Plate 360 µL Flat on slot 3
+	<span class="asp">Aspirating</span> 180.0 uL from <span class="well">A5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 180.0 uL into <span class="well">E11</span> of Corning 96 Well Plate 360 µL Flat on slot 3 at 274.7 uL/sec
+Mixing 3 times with a volume of 100.0 ul
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">B5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">B5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">B5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">B5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">B5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">B5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+<span class="trans">Transferring</span> 180.0 from <span class="well">B5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 to <span class="well">F11</span> of Corning 96 Well Plate 360 µL Flat on slot 3
+	<span class="asp">Aspirating</span> 180.0 uL from <span class="well">B5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 180.0 uL into <span class="well">F11</span> of Corning 96 Well Plate 360 µL Flat on slot 3 at 274.7 uL/sec
+Mixing 3 times with a volume of 100.0 ul
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">C5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">C5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">C5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">C5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">C5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">C5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+<span class="trans">Transferring</span> 180.0 from <span class="well">C5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 to <span class="well">G11</span> of Corning 96 Well Plate 360 µL Flat on slot 3
+	<span class="asp">Aspirating</span> 180.0 uL from <span class="well">C5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 180.0 uL into <span class="well">G11</span> of Corning 96 Well Plate 360 µL Flat on slot 3 at 274.7 uL/sec
+Mixing 3 times with a volume of 100.0 ul
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">D5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">D5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">D5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">D5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">D5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">D5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+<span class="trans">Transferring</span> 180.0 from <span class="well">D5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 to <span class="well">H11</span> of Corning 96 Well Plate 360 µL Flat on slot 3
+	<span class="asp">Aspirating</span> 180.0 uL from <span class="well">D5</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 180.0 uL into <span class="well">H11</span> of Corning 96 Well Plate 360 µL Flat on slot 3 at 274.7 uL/sec
+Mixing 3 times with a volume of 100.0 ul
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">A6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">A6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">A6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">A6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">A6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">A6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+<span class="trans">Transferring</span> 180.0 from <span class="well">A6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 to <span class="well">E12</span> of Corning 96 Well Plate 360 µL Flat on slot 3
+	<span class="asp">Aspirating</span> 180.0 uL from <span class="well">A6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 180.0 uL into <span class="well">E12</span> of Corning 96 Well Plate 360 µL Flat on slot 3 at 274.7 uL/sec
+Mixing 3 times with a volume of 100.0 ul
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">B6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">B6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">B6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">B6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">B6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">B6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+<span class="trans">Transferring</span> 180.0 from <span class="well">B6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 to <span class="well">F12</span> of Corning 96 Well Plate 360 µL Flat on slot 3
+	<span class="asp">Aspirating</span> 180.0 uL from <span class="well">B6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 180.0 uL into <span class="well">F12</span> of Corning 96 Well Plate 360 µL Flat on slot 3 at 274.7 uL/sec
+Mixing 3 times with a volume of 100.0 ul
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">C6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">C6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">C6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">C6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="asp">Aspirating</span> 100.0 uL from <span class="well">C6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+	<span class="disp">Dispensing</span> 100.0 uL into <span class="well">C6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 549.4 uL/sec
+<span class="trans">Transferring</span> 180.0 from <span class="well">C6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 to <span class="well">G12</span> of Corning 96 Well Plate 360 µL Flat on slot 3
+	<span class="asp">Aspirating</span> 180.0 uL from <span class="well">C6</span> of Corning 24 Well Plate 3.4 mL Flat on slot 9 at 274.7 uL/sec
+	<span class="disp">Dispensing</span> 180.0 uL into <span class="well">G12</span> of Corning 96 Well Plate 360 µL Flat on slot 3 at 274.7 uL/sec
+<span class="pick">Dropping tip</span> into Trash Bin on slot 12
+Protocol complete. Please proceed with the next steps.
+</pre>
+  </details>
+</body>
+</html>
