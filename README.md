@@ -1,6 +1,6 @@
 # 🧫 Cell Automation with Opentrons OT-2
 
-Welcome to my OT-2 learning and automation hub!  
+Welcome to my OT-2 learning and automation hub for resources and journey 
 This repository contains a growing collection of protocols, tools, and functions designed to automate **cell culturing workflows** using the [Opentrons OT-2](https://opentrons.com/ot-2) robot and Python API.
 
 ---
