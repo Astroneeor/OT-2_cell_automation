@@ -2,7 +2,12 @@ import json
 
 # User-provided anchor coordinates
 # Replace these tuples with your measured offsets for each anchor well:
+
+
+# This should be your labware definition A1 coordinate
 Original_anchor_A1 = (17.48, 71.67, 2.87)  # (X, Y, Z) of A1 from matrix
+
+# Relative using Offset of the Robot
 anchor_A1 = (17.48, 71.67, 2.87)   # (X, Y, Z) of A1
 anchor_A6 = (113.98, 71.67, 3.73)  # (X, Y, Z) of A6
 anchor_D1 = (17.48, 13.77, 2.87)   # (X, Y, Z) of D1
