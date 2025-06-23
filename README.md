@@ -23,7 +23,7 @@ Over the past few months, I’ve been exploring:
 |-------------|-------------|
 | `protocols/` | Experimental and working protocols for automation tasks |
 | `validation/` | Scripts for testing tip height, volume accuracy, and well offsets |
-| `labware/` | Custom JSON labware definitions built from real plate offsets |
+| `labware/` | Custom JSON labware definitions built from real plate offsets, and scripts to make them |
 | `simulation/` | Enhanced `opentrons_simulate.py` for readable outputs |
 | `utils/` | Helper functions to improve pipetting (aspirate, distribute, etc.) |
 | `README.md` | You are here — repo overview and documentation |
@@ -33,14 +33,14 @@ Over the past few months, I’ve been exploring:
 ## ⚗️ Validation Methods
 
 The `validation/` folder includes techniques we’ve used to:
-- 🧮 Replace rotational matrix tilt detection with **weighted z-height averaging**
-- 📏 Determine **residual liquid levels** after aspiration across slanted plates
-- 🧰 Automate z-offset calibration via well-by-well comparisons
+- 🧮 Test various plates and wells for residual volume amounts **weighted z-height averaging**
+- 📏 Determine **standard curve** to measure amounts of liquid and compare trends
+- 🧰 Trying different methods of bubble removal and other methods when aspirating fluid
 
 Example scripts:
-- `z_calibration_average.py`
-- `tilted_plate_test.py`
-- `offset_logger.py`
+- `ResidueTesting.py`
+- `StandardCurve.py`
+- `TitltedTouchTipTest.py`
 
 These experiments were key to minimizing inconsistency caused by plate tilt and deck offsets.
 
@@ -72,11 +72,9 @@ Features:
 ## 🧪 Smart Pipetting Utilities
 
 Explore the `utils/` folder for upgraded functions like:
-- `smart_aspirate()`: Adjusts based on liquid height + residuals
-- `distribute_smooth()`: Even distribution with minimal tip reuse
-- `safe_pickup()`: Checks for tip presence + retries if failed
+- `enhanced_distribute()`: just a better version of the distribute function, needs updates
 
-All designed to be plug-and-play with your custom protocols.
+All designed to be plug-and-play with your custom protocols, but may need some tweaking for ordering and amount of plates and etc.
 
 ---
 
