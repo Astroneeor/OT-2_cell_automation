@@ -139,8 +139,8 @@ def residual_testing(source, pipette, well_plate):
     # p1000.pick_up_tip()
     
     for well in well_list:
-        p1000.transfer(500, reservoir.bottom(5), well.bottom(1), new_tip="never")
-        p1000.aspirate(1000, well.bottom(1))
+        p1000.transfer(500, reservoir.bottom(5), well.bottom(1.3), new_tip="never")
+        p1000.aspirate(1000, well.bottom(1.3))
         p1000.blow_out(reservoir.top(-8))
         p1000.touch_tip(reservoir, v_offset=-8, radius= 0.9)
  
@@ -163,14 +163,14 @@ def residual_control(source, pipette, well_plate):
     # p1000.pick_up_tip()
     
     for well in well_list:
-        p1000.transfer(500, reservoir.bottom(5), well.bottom(1), new_tip="never")
-        p1000.aspirate(1000, well.bottom(1))
+        p1000.transfer(500, reservoir.bottom(5), well.bottom(1.3), new_tip="never")
+        p1000.aspirate(1000, well.bottom(1.3))
         p1000.blow_out(reservoir.top(-8))
         p1000.touch_tip(reservoir, v_offset=-8, radius= 0.9)
 
     for col in range(6):
         well = well_plate.rows()[3][col]
-        p1000.transfer(control_list[col], reservoir.bottom(5), well.bottom(1), new_tip="never")
+        p1000.transfer(control_list[col], reservoir.bottom(5), well.bottom(1.3), new_tip="never")
  
     # p1000.drop_tip()
 
@@ -202,8 +202,9 @@ def transfer_to_reader(source_plate, read_plate, pipette, plate_number):
             if quadrant == 4 and x == 5 and y == 3:
                 continue
 
-            p1000.mix(3, 100, source.columns()[x][y].bottom(1), 2)
-            p1000.transfer(180, source.columns()[x][y].bottom(1), read.columns()[x_read][y_read], new_tip="never")
+            edge_position = source.columns()[x][y].bottom(1.3).move(Point(0, 6, 0))
+            p1000.mix(3, 100, source.columns()[x][y].bottom(1.3), 2)
+            p1000.transfer(180, edge_position, read.columns()[x_read][y_read], new_tip="never")
         
     # p1000.drop_tip()
 
@@ -222,8 +223,8 @@ def run(protocol: protocol_api.ProtocolContext):
     
     well_plate_1 = protocol.load_labware("corning_24_wellplate_3.4ml_flat", "1")
     well_plate_2 = protocol.load_labware("corning_24_wellplate_3.4ml_flat", "2")
-    well_plate_3 = protocol.load_labware("corning_24_wellplate_3.4ml_flat", "6")
-    well_plate_4 = protocol.load_labware("corning_24_wellplate_3.4ml_flat", "9")
+    well_plate_3 = protocol.load_labware("corning_24_wellplate_3.4ml_flat", "4")
+    well_plate_4 = protocol.load_labware("corning_24_wellplate_3.4ml_flat", "5")
 
     pipette.default_speed = 200
     pipette.starting_tip = tip_racks.wells_by_name()[STARTING_TIP]
