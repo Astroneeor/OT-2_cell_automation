@@ -129,3 +129,71 @@ metadata = {
 }
 
 requirements = {"robotType": "OT-2", "apiLevel": "2.22"}
+
+def remove_media(pipette, well_list, waste):
+    pipette.pick_up_tip()
+    for well in well_list:
+        pipette.transfer(1000, well.bottom(z=1), waste.top(), new_tip='never')
+    pipette.drop_tip()
+
+def wash_with_pbs(pipette, well_list, PBS):
+    pipette.pick_up_tip()
+    for well in well_list:
+        pipette.transfer(400, PBS, well.bottom(2), new_tip='never')
+    pipette.drop_tip()
+
+def remove_pbs(pipette, well_list, waste):
+    pipette.pick_up_tip()
+    for well in well_list:
+        pipette.transfer(1000, well.bottom(1), waste.top(), new_tip='never')
+    pipette.drop_tip()
+
+def add_trypsin(pipette, well_list, trypsin):
+    pipette.pick_up_tip()
+    for well in well_list:
+        pipette.transfer(200, trypsin, well.bottom(2), new_tip='never')
+    pipette.drop_tip()
+
+def pause_for_detachment(protocol):
+    protocol.comment("👨‍🔬 Manual incubation and detachment required.")
+    protocol.pause("Incubate at 37°C until cells detach. Neutralize trypsin with media, collect into conical, centrifuge, discard supernatant, and resuspend in fresh media.")
+
+def pause_for_resuspension_and_count(protocol):
+    protocol.pause("🧪 After resuspension and manual counting, place cell suspension in slot 2 A4.")
+
+def seed_cells(pipette, well_list, cell_source):
+    pipette.pick_up_tip()
+    for well in well_list:
+        pipette.transfer(200, cell_source, well.bottom(1), new_tip='never')
+    pipette.drop_tip()
+
+def run(protocol: protocol_api.ProtocolContext):
+
+    # Labware Setup
+    tiprack = protocol.load_labware('opentrons_96_tiprack_1000ul', 1)
+    tube_rack = protocol.load_labware("opentrons_10_tuberack_falcon_4x50ml_6x15ml_conical", "5")
+    plate = protocol.load_labware('corning_6_wellplate_16.8ml_flat', 3)
+    waste = protocol.load_labware('nest_1_reservoir_195ml', 4)
+
+    # Pipette
+    pipette = protocol.load_instrument('p1000_single_gen2', 'left', [tiprack])
+
+    # Reagent Positions
+    PBS = tube_rack['A3']
+    trypsin = tube_rack['A1']
+    media = tube_rack['A4']
+    resuspended_cells = tube_rack['B1']  # user loads this manually
+    waste_well = waste['B4']
+
+    # 🧬 Call each step
+    remove_media(pipette, plate, waste_well)
+    wash_with_pbs(pipette, plate, PBS)
+    remove_pbs(pipette, plate, waste_well)
+    add_trypsin(pipette, plate, trypsin)
+
+    pause_for_detachment(protocol)
+    pause_for_resuspension_and_count(protocol)
+
+    seed_cells(pipette, plate, resuspended_cells)
+
+    protocol.comment("✅ Cell passage complete. Move plate to incubator.")
