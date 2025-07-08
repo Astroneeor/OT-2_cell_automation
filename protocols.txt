@@ -1,0 +1,18 @@
+Ok these are the protocols that i kinda need ot make into fully fledged functions that biologists can use
+
+dispensing liquid (easy enough)
+
+Aspiration of media then replacing the media (Media Replacement)
+
+Aspirating media, washing media (multiple times) with PBS fluid
+- Low residual volume needed to not worry about dilution
+- Potentially mixing
+
+Separating part of the cells to use for counting
+
+full passaging of cells 
+
+Testing out touch tip function to get rid of bubbles at the tip
+- Touch tip on one side or all sides?
+- Can I just submerge the pipette into the well and do it that way? (contamination though)
+
