@@ -118,10 +118,6 @@ def add_parameters(parameters):
         description="Select the starting tip position in the tip rack",
     )
 
-    parameters.add_str(
-        
-    )
-
 metadata = {
     "protocolName": "General Cell Passaging",
     "description": """Cell Passaging of cells, with manual cell counting""",
@@ -170,25 +166,26 @@ def seed_cells(pipette, well_list, cell_source):
 def run(protocol: protocol_api.ProtocolContext):
 
     # Labware Setup
-    tiprack = protocol.load_labware('opentrons_96_tiprack_1000ul', 1)
-    tube_rack = protocol.load_labware("opentrons_10_tuberack_falcon_4x50ml_6x15ml_conical", "5")
-    plate = protocol.load_labware('corning_6_wellplate_16.8ml_flat', 3)
-    waste = protocol.load_labware('nest_1_reservoir_195ml', 4)
+    STARTING_TIP = protocol.params.starting_tip
+    tip_racks = protocol.load_labware("opentrons_96_tiprack_1000ul", "4")
+    pipette = protocol.load_instrument("p1000_single_gen2", "left", [tip_racks])
+    reservoir = protocol.load_labware("opentrons_10_tuberack_falcon_4x50ml_6x15ml_conical", "5")
+    
+    plate = protocol.load_labware("corning_24wp_z16_8mm_d6_depth0", "1")
 
-    # Pipette
-    pipette = protocol.load_instrument('p1000_single_gen2', 'left', [tiprack])
+    pipette.default_speed = 200
+    pipette.starting_tip = tip_racks.wells_by_name()[STARTING_TIP]
 
     # Reagent Positions
-    PBS = tube_rack['A3']
-    trypsin = tube_rack['A1']
-    media = tube_rack['A4']
-    resuspended_cells = tube_rack['B1']  # user loads this manually
-    waste_well = waste['B4']
-
+    PBS = reservoir['A3']
+    trypsin = reservoir['A1']
+    media = reservoir['A4']
+    resuspended_cells = reservoir['B1']  # user loads this manually
+    waste = protocol.load_labware("ungrin_reservoir_550ml", "6")
     # 🧬 Call each step
-    remove_media(pipette, plate, waste_well)
+    remove_media(pipette, plate, waste)
     wash_with_pbs(pipette, plate, PBS)
-    remove_pbs(pipette, plate, waste_well)
+    remove_pbs(pipette, plate, waste)
     add_trypsin(pipette, plate, trypsin)
 
     pause_for_detachment(protocol)
