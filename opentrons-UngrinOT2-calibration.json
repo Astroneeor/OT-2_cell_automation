@@ -1,0 +1,105 @@
+{
+  "deck": {
+    "deckCalibrationData": {
+      "type": "attitude",
+      "matrix": [
+        [
+          0.9978,
+          0.0016,
+          0
+        ],
+        [
+          -0.0003,
+          1.0016,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "lastModified": "2025-06-30T21:16:40.882681Z",
+      "pipetteCalibratedWith": "P3HMV212021100905",
+      "tiprack": "ed323db6ca1ddf197aeb20667c1a7a91c89cfb2f931f45079d483928da056812",
+      "source": "user",
+      "status": {
+        "markedBad": false,
+        "source": null,
+        "markedAt": null
+      }
+    },
+    "isDeckCalibrated": true,
+    "markedBad": false
+  },
+  "pipetteOffset": [
+    {
+      "id": "P3HMV212021100905&right",
+      "pipette": "P3HMV212021100905",
+      "mount": "right",
+      "offset": [
+        -0.29999999999999893,
+        -4.300000000000004,
+        -1.5999999999999943
+      ],
+      "tiprack": "ed323db6ca1ddf197aeb20667c1a7a91c89cfb2f931f45079d483928da056812",
+      "tiprackUri": "opentrons/opentrons_96_tiprack_300ul/1",
+      "lastModified": "2025-06-30T21:34:58.953094Z",
+      "source": "user",
+      "status": {
+        "markedBad": false,
+        "source": null,
+        "markedAt": null
+      }
+    },
+    {
+      "id": "P1KSV222021091409&left",
+      "pipette": "P1KSV222021091409",
+      "mount": "left",
+      "offset": [
+        -1.6000000000000103,
+        -5.800000000000001,
+        1.4210854715202004e-14
+      ],
+      "tiprack": "f979b7278ee3e6c4a13a6336cc6a602688f916ab2962de49263a1af5b513a533",
+      "tiprackUri": "opentrons/opentrons_96_tiprack_1000ul/1",
+      "lastModified": "2025-06-30T21:26:24.286674Z",
+      "source": "user",
+      "status": {
+        "markedBad": false,
+        "source": null,
+        "markedAt": null
+      }
+    }
+  ],
+  "tipLength": [
+    {
+      "id": "ed323db6ca1ddf197aeb20667c1a7a91c89cfb2f931f45079d483928da056812&P3HMV212021100905",
+      "tipLength": 50.70000000000007,
+      "tiprack": "ed323db6ca1ddf197aeb20667c1a7a91c89cfb2f931f45079d483928da056812",
+      "pipette": "P3HMV212021100905",
+      "lastModified": "2025-06-30T21:30:16.236877Z",
+      "source": "user",
+      "status": {
+        "markedBad": false,
+        "source": null,
+        "markedAt": null
+      },
+      "uri": "opentrons/opentrons_96_tiprack_300ul/1"
+    },
+    {
+      "id": "f979b7278ee3e6c4a13a6336cc6a602688f916ab2962de49263a1af5b513a533&P1KSV222021091409",
+      "tipLength": 78.00000000000007,
+      "tiprack": "f979b7278ee3e6c4a13a6336cc6a602688f916ab2962de49263a1af5b513a533",
+      "pipette": "P1KSV222021091409",
+      "lastModified": "2025-06-30T21:20:55.416931Z",
+      "source": "user",
+      "status": {
+        "markedBad": false,
+        "source": null,
+        "markedAt": null
+      },
+      "uri": "opentrons/opentrons_96_tiprack_1000ul/1"
+    }
+  ]
+}

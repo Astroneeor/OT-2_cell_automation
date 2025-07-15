@@ -33,16 +33,16 @@ def remove_media(well):
     pipette.transfer(1000, well.bottom(1), waste_well.top(), new_tip='never')
 
 def wash_with_pbs(well):
-    pipette.transfer(400, PBS, well.bottom(2), new_tip='never')
+    pipette.transfer(400, PBS, well.bottom(3), new_tip='never')
 
 def remove_pbs(well):
     pipette.transfer(1000, well.bottom(1), waste_well.top(), new_tip='never')
 
 def add_trypsin(well):
-    pipette.transfer(200, trypsin, well.bottom(2), new_tip='never')
+    pipette.transfer(200, trypsin, well.bottom(3), new_tip='never')
 
 def seed_cells(well):
-    pipette.transfer(200, resuspended_cells, well.bottom(1), new_tip='never')
+    pipette.transfer(200, resuspended_cells, well.bottom(3), new_tip='never')
     
 
 # ========== STEP CALLS (Uncomment to Run) ==========
