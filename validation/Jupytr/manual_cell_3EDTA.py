@@ -48,17 +48,19 @@ print("Pipette is armed")
 print("Setting Liquids")
 PBS = reservoir['A3']
 trypsin = reservoir['A2']
+trypsinEDTA2 = reservoir['C1']
+trypsinEDTA = reservoir['C2']
 media = reservoir['A4']
 resuspended_cells = reservoir['B1']  # Load manually after counting
 waste = waste_thing.wells()[0]  # Use A1 as default
 print("Liquids Set")
 
 # ========== DEFINE PLATE WELLS ==========
-well_list = plate.rows()[3]  # or plate.rows()[0] for first row only
+well_list = []
 
 # ========== NEED FOR SPEED ==========
 DEFAULT_ASPIRATE = 275.0
-DEFAULT_DISPENSE = 550.0
+DEFAULT_DISPENSE = 275.0
 DEFAULT_BLOW_OUT = 1000.0
 
 def set_default_speed():
@@ -66,15 +68,13 @@ def set_default_speed():
     pipette.flow_rate.dispense = DEFAULT_DISPENSE
     pipette.flow_rate.blow_out = DEFAULT_BLOW_OUT
 
-FAST_ASPIRATE = 500.0
+FAST_ASPIRATE = 2000.0
 FAST_DISPENSE = 2000.0
 
 def set_fast_speed():
     pipette.flow_rate.aspirate = FAST_ASPIRATE
     pipette.flow_rate.dispense = FAST_DISPENSE
     pipette.flow_rate.blow_out = DEFAULT_BLOW_OUT
-
-
 
 # ========== STEP FUNCTIONS ==========
 print("Just functions")
@@ -83,9 +83,6 @@ def home():
     pipette.move_to(waste.top())
 
 def wash_trypsin(well):
-    
-    set_default_speed()
-    
     # Remove media for dead cells and wash with PBS twice
     pipette.mix(1, 750, well.bottom(2))
     pipette.aspirate(1000, well.bottom(1))
@@ -101,13 +98,11 @@ def wash_trypsin(well):
     pipette.aspirate(500, well.bottom(1))
     pipette.blow_out(waste)
 
-    set_default_speed()
     
-def add_trypsin(well):
+def add_trypsin(well, trypsin_type=trypsin):
     # Add trypsin and wait
-    set_default_speed()
-    pipette.transfer(500, trypsin.bottom(3), well.bottom(5), new_tip='never')
-    set_default_speed()
+    pipette.transfer(500, trypsin_type.bottom(3), well.bottom(5), new_tip='never')
+    home()
 
 def deattach_mix(well, added_volume=0, height_neg=0):
     edge_position1 = well.bottom(1.5-height_neg).move(Point(0, 0, 0))
@@ -120,7 +115,6 @@ def deattach_mix(well, added_volume=0, height_neg=0):
 
     # Just to try and prevent excessive foaming
     set_fast_speed()
-    
     pipette.mix(3, 300+added_volume, edge_position1, 2)
     pipette.mix(3, 250+added_volume, edge_position2, 2)
     pipette.mix(3, 250+added_volume, edge_position3, 2)
@@ -129,27 +123,35 @@ def deattach_mix(well, added_volume=0, height_neg=0):
     pipette.mix(6, 200+added_volume, edge_position6, 2)
     pipette.mix(3, 250+added_volume, edge_position7, 2)
     pipette.blow_out(well.bottom(7))
-    pipette.move_to(waste.top())
-
+    home()
     set_default_speed()
 
 def move_to_tube(well, tube, amount=1500):
     # Move cells to tube
-    set_default_speed()
+    pipette.mix(2, 800, well.bottom(1), 2)
     pipette.transfer(amount, well.bottom(1), tube.top(), new_tip='never')
     pipette.blow_out(tube.top(-5))
-    set_default_speed()
+
+    home()
 
 def resuspend_cells(tube, volume=200):
     # Resuspend cells in tube
-    set_default_speed()
 
-    pipette.aspirate(500, tube.bottom(15), rate=0.25)
+    pipette.aspirate(500, tube.bottom(15), rate=0.5)
     pipette.aspirate(500, tube.bottom(4), rate=0.25)
     pipette.blow_out(waste.top())
     
-    pipette.transfer(200, media.bottom(5), tube.bottom(3), new_tip='never')
+    pipette.transfer(volume, media.bottom(5), tube.bottom(3), new_tip='never')
     set_fast_speed()
-    pipette.mix(10, 100, tube.bottom(1), 5)
+    pipette.mix(10, 100, tube.bottom(1), 2)
+    set_default_speed()
 
-    set_default_speed()   
+    home()
+
+def reseeding(tube, well_list, volume=200):
+    # Reseed cells into well
+    set_default_speed()
+    pipette.mix(3, 200, tube.bottom(1), 2)
+    pipette.transfer(volume, tube.bottom(1), well_list.bottom(1), new_tip='never')
+
+    home()
