@@ -1,4 +1,5 @@
 from opentrons import protocol_api
+from opentrons.types import Point
 
 def add_parameters(parameters):
     parameters.add_str(
@@ -119,171 +120,182 @@ def add_parameters(parameters):
     )
 
 metadata = {
-    "protocolName": "General Cell Passaging Calibtration",
-    "description": """Cell Passaging of cells, with manual cell counting""",
-    "author": "Neeor Cannot Biology"
+    "protocolName": "Dry Run Cell Passage Protocol July 29",
+    "description": """Cell passage protocol with certain amoutn of mixing steps and doing 6 wells at a time.""",
+    "author": "Neeor is not cooking"
 }
 
-requirements = {"robotType": "OT-2", "apiLevel": "2.22"}
+# ========== NEED FOR SPEED ==========
+DEFAULT_ASPIRATE = 275.0
+DEFAULT_DISPENSE = 275.0
+DEFAULT_BLOW_OUT = 1000.0
 
-def set_flow_rate(pipette, gentle = False):
-    if gentle:
-        pipette.flow_rate.aspirate = 50
-        pipette.flow_rate.dispense = 100
-        pipette.flow_rate.blow_out = 150
-    else:
-        pipette.flow_rate.aspirate = 150
-        pipette.flow_rate.dispense = 300
+def set_default_speed():
+    pipette.flow_rate.aspirate = DEFAULT_ASPIRATE
+    pipette.flow_rate.dispense = DEFAULT_DISPENSE
+    pipette.flow_rate.blow_out = DEFAULT_BLOW_OUT
+
+FAST_ASPIRATE = 2000.0
+FAST_DISPENSE = 2000.0
+
+def set_fast_speed():
+    pipette.flow_rate.aspirate = FAST_ASPIRATE
+    pipette.flow_rate.dispense = FAST_DISPENSE
+    pipette.flow_rate.blow_out = DEFAULT_BLOW_OUT
+
+# ========== STEP FUNCTIONS ==========
+print("Just functions")
+
+def home(pipette, waste):
+    pipette.move_to(waste.top())
+
+def wash_pbs(pipette, PBS, waste, well):
+    pipette.aspirate(1000, well.bottom(1))
+    pipette.blow_out(waste)
+    pipette.transfer(1000, PBS.bottom(5), well.bottom(5), new_tip='never')
+    pipette.mix(1, 750, well.bottom(2))
+    pipette.aspirate(1000, well.bottom(1))
+    pipette.blow_out(waste)
+    pipette.transfer(1000, PBS.bottom(5), well.bottom(5), new_tip='never')
+    pipette.mix(1, 750, well.bottom(2))
+    pipette.aspirate(1000, well.bottom(1))
+    pipette.blow_out(waste)
 
 
-def gentle_mix_media(pipette, wells):
-    for well in wells:
-        set_flow_rate(pipette, True)
-        pipette.mix(1, 800, well.bottom(z=1))
-    set_flow_rate(pipette)
-
-def remove_media(pipette, wells, waste):
-    for well in wells:
-        pipette.aspirate(1000, well.bottom(z=1))
-        pipette.dispense(1000, waste.top())
-        pipette.aspirate(1000, well.bottom(z=1))
-        pipette.dispense(1000, waste.top())
-
-def add_dpbs(pipette, wells, dpbs):
-    for well in wells:
-        pipette.transfer(1000, dpbs, well.top(-2))
+def add_trypsin(pipette, trypsin_type, well, waste, volume=500):
+    pipette.transfer(volume, trypsin_type.bottom(3), well.bottom(5), new_tip='never')
+    pipette.move_to(waste.top())
 
 
-def mix_dpbs(pipette, wells):
-    pipette.pick_up_tip()
-    for well in wells:
-        pipette.mix(3, 800, well.bottom(z=1))
-    pipette.drop_tip()
+def deattach_mix(pipette, well, added_volume=0, height_neg=0):
+    positions = [
+        well.bottom(1.5 - height_neg),
+        well.bottom(2 - height_neg).move(Point(-6, 6, 0)),
+        well.bottom(2 - height_neg).move(Point(-6, -6, 0)),
+        well.bottom(3 - height_neg).move(Point(-11, 0, 0)),
+        well.bottom(2 - height_neg).move(Point(-9, 4, 0)),
+        well.bottom(2 - height_neg).move(Point(-9, -4, 0)),
+        well.bottom(2 - height_neg).move(Point(-6, 0, 0))
+    ]
 
-def remove_dpbs(pipette, wells, waste):
-    pipette.pick_up_tip()
-    for well in wells:
-        pipette.aspirate(1000, well.bottom(z=1))
-        pipette.dispense(1000, waste.top())
-    pipette.drop_tip()
+    pipette.flow_rate.aspirate = 2000
+    pipette.flow_rate.dispense = 2000
 
-def add_trypsin(pipette, wells, trypsin):
-    pipette.pick_up_tip()
-    for well in wells:
-        pipette.aspirate(250, trypsin)
-        pipette.dispense(250, well.top(-2))  # dispense along wall
-    pipette.drop_tip()
+    pipette.mix(2, 300+added_volume, positions[0], 2)
+    pipette.mix(2, 250+added_volume, positions[1], 2)
+    pipette.mix(2, 250+added_volume, positions[2], 2)
+    pipette.mix(4, 150+added_volume, positions[3], 2)
+    pipette.mix(4, 200+added_volume, positions[4], 2)
+    pipette.mix(4, 200+added_volume, positions[5], 2)
+    pipette.mix(2, 250+added_volume, positions[6], 2)
 
-def wait_for_detachment(protocol):
-    protocol.pause("⌛ Trypsin incubation: waiting for cells to detach...")
+    pipette.blow_out(well.bottom(7))
+    pipette.blow_out(well.bottom(7))
+    pipette.flow_rate.aspirate = 275
+    pipette.flow_rate.dispense = 275
 
-def vigorous_mix_trypsin(pipette, wells):
-    pipette.pick_up_tip()
-    for well in wells:
-        pipette.mix(20, 200, well.bottom(z=0.5))  # strong, shallow mixing
-    pipette.drop_tip()
 
-def add_media_to_quench(pipette, wells, media):
-    pipette.pick_up_tip()
-    for well in wells:
-        pipette.aspirate(250, media)
-        pipette.dispense(250, well.top(-2))
-    pipette.drop_tip()
+def move_to_tube(pipette, well, tube, waste, amount=1500):
+    pipette.mix(2, 800, well.bottom(1), 2)
+    pipette.transfer(amount, well.bottom(1), tube.top(), new_tip='never')
+    pipette.blow_out(tube.top(-5))
+    pipette.move_to(waste.top())
 
-def post_quench_mix(pipette, wells):
-    pipette.pick_up_tip()
-    for well in wells:
-        pipette.mix(5, 400, well.bottom(z=1))
-    pipette.drop_tip()
 
-def transfer_to_tube(pipette, wells, tube_well):
-    pipette.pick_up_tip()
-    for well in wells:
-        pipette.aspirate(500, well.bottom(z=1))
-        pipette.dispense(500, tube_well.top())  # combine everything into one tube
-    pipette.drop_tip()
+def resuspend_cells(pipette, media, waste, tube, volume=1000):
+    pipette.aspirate(500, tube.bottom(15), rate=0.5)
+    pipette.aspirate(500, tube.bottom(4), rate=0.25)
+    pipette.blow_out(waste.top())
+    pipette.transfer(volume, media.bottom(5), tube.bottom(3), new_tip='never')
+    pipette.flow_rate.aspirate = 2000
+    pipette.flow_rate.dispense = 2000
+    pipette.mix(10, volume - 100, tube.bottom(5), 2)
+    pipette.flow_rate.aspirate = 275
+    pipette.flow_rate.dispense = 275
+    pipette.move_to(waste.top())
 
-def pause_for_centrifuge_and_count(protocol):
-    protocol.pause(
-        "📦 Please remove tube, centrifuge at 200g for 2 min. "
-        "Discard supernatant, resuspend pellet in fresh media (1–5ml depending on expected yield). "
-        "Vigorously mix (10–30x), take 10uL into another tube, and count cells. "
-        "Return with resuspended tube in slot 2 A5."
-    )
 
-def seed_new_wells(pipette, wells, cell_source):
-    pipette.pick_up_tip()
-    for well in wells:
-        pipette.aspirate(200, cell_source)
-        pipette.dispense(200, well.top(-2))
-    pipette.drop_tip()
-
-def top_up_media(pipette, wells, media):
-    pipette.pick_up_tip()
-    for well in wells:
-        pipette.aspirate(800, media)
-        pipette.dispense(800, well.top(-2))
-    pipette.drop_tip()
-
-def final_mix_wells(pipette, wells):
-    pipette.pick_up_tip()
-    for well in wells:
-        pipette.mix(3, 800, well.bottom(z=1))
-    pipette.drop_tip()
+def reseeding(pipette, tube, wells, waste, volume=200):
+    pipette.flow_rate.aspirate = 2000
+    pipette.flow_rate.dispense = 2000
+    pipette.mix(3, 200, tube.bottom(1), 2)
+    pipette.flow_rate.aspirate = 275
+    pipette.flow_rate.dispense = 275
+    pipette.transfer(volume, tube.bottom(1), wells, new_tip='never')
+    pipette.move_to(waste.top())
 
 def run(protocol: protocol_api.ProtocolContext):
-
     # ========== LOAD LABWARE ==========
-    protocol.set_rail_lights(True)  # Turn on rail lights
-    plate = protocol.load_labware("corning_24wp_z16_8mm_d6_depth0", "1") # corning_24wp_z16_8mm_d6_depth0
-    protocol.comment("Plate loaded at slot 1")
+    print("Started loading labware")
+
+    # Depth 0 plate
+    '''
+    plate = protocol.load_labware("corning_24wp_z16_8mm_d6_depth0", "1")
+    plate.set_offset(x=-2.50, y=-0.10, z=-0.50)
+    '''
+
+    # Normal Depth plate (no scraping)
+    plate = protocol.load_labware("corning_24wp_z16_8mm_d6_offset", "1")
+    plate.set_offset(x=-2.00, y=-0.10, z=-0.10)
+
+    reseed_plate = protocol.load_labware("corning_24_wellplate_3.4ml_flat", '2')
+    reseed_plate.set_offset(x=-2.4, y=-0.40, z=-1.40)
+
+    # Reservoirs and racks
     reservoir = protocol.load_labware("opentrons_10_tuberack_falcon_4x50ml_6x15ml_conical", "5")
-    protocol.comment("Reservoir loaded at slot 5")
-    waste = protocol.load_labware("ungrin_reservoir_550ml", "6") # ungrin_reservoir_550ml
-    protocol.comment("Waste reservoir loaded at slot 6")
+    reservoir.set_offset(x=-0.50, y=0.30, z=-1.70)
+
+    tiny_tuberack = protocol.load_labware("opentrons_24_tuberack_eppendorf_1.5ml_safelock_snapcap", "3")
+    tiny_tuberack.set_offset(x=-0.20, y=0.10, z=1.00)
+
+    waste_beaker = protocol.load_labware("ungrin_reservoir_550ml", "6")
+
     tiprack = protocol.load_labware("opentrons_96_tiprack_1000ul", "4")
-    protocol.comment("Tip rack loaded at slot 4")
+    tiprack.set_offset(x=-0.30, y=0.10, z=-0.30)
+    print("Loaded the labware")
 
     # ========== LOAD PIPETTE ==========
-    pipette = protocol.load_instrument("p1000_single_gen2", "left", tip_racks=[tiprack])
-    protocol.comment("Pipette loaded on left mount")
-    pipette.default_speed = 200
-    pipette.starting_tip = tiprack.wells_by_name()['A1']  # or change to any tip
+    pipette = protocol.load_instrument("p1000_single_gen2",
+                                       "left",
+                                       tip_racks=[tiprack],
+                                       starting_tip=protocol.parameters['starting_tip']
+                                       )
+    print("Pipette is armed")
 
     # ========== DEFINE REAGENTS ==========
+    print("Setting Liquids")
     PBS = reservoir['A3']
-    trypsin = reservoir['A2']
-    media = reservoir['A4']
-    resuspended_cells = reservoir['B1']  # Load manually after counting
-    waste_well = waste.wells()[0]  # Use A1 as default
+    trypsin = reservoir['C1']
+    media_hff = reservoir['B3']
+    media_rpe = reservoir['B4'] 
+    waste = waste_beaker.wells()[0]
+    print("Liquids Set")
 
     # ========== DEFINE PLATE WELLS ==========
-    wells = plate.rows()[3]  # or plate.rows()[0] for first row only
+    well_list = []
+    
+    
 
-    # ---- PROCEDURE ----
+    # Add your protocol steps here
     '''
-    gentle_mix_media(pipette, wells)
-    remove_media(pipette, wells, waste_well)
+    This is for RPE Cells. Trypsin will be for 5 minutes in incubator at 37C
+    Make sure to set the appropriate media in A1
+    '''
 
-    add_dpbs(pipette, wells, dpbs)
-    mix_dpbs(pipette, wells)
-    remove_dpbs(pipette, wells, waste_well)
 
-    # optional repeat DPBS wash if needed...
+    '''
+    This is for HFF Cells. Trypsin will be for roughly 8 minutes in incubator at 37C
+    Make sure to set the appropriate media in A2
+    '''
+    
 
-    add_trypsin(pipette, wells, trypsin)
-    wait_for_detachment(protocol)
-    vigorous_mix_trypsin(pipette, wells)
+    '''
+    This is for other Cells. Trypsin will be for 5 minutes in incubator at 37C
+    Make sure to set the appropriate media in B1
+    '''
 
-    add_media_to_quench(pipette, wells, media)
-    post_quench_mix(pipette, wells)
-    transfer_to_tube(pipette, wells, temp_tube)
 
-    pause_for_centrifuge_and_count(protocol)
-
-    seed_new_wells(pipette, wells, cell_source)
-    top_up_media(pipette, wells, media)
-    final_mix_wells(pipette, wells)
-
-    protocol.comment("✅ Passage complete. Transfer wells to incubator.")
+    '''
+    This is for other Cells. Trypsin will be for 5 minutes in incubator at 37C
+    Make sure to set the appropriate media in B2
     '''
