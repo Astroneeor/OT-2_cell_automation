@@ -226,13 +226,13 @@ def resuspend_cells(pipette, media_type, waste, tube_list, volume=1000):
         pipette.flow_rate.dispense = 275
 
 
-def reseed(pipette, tube, wells, waste, volume):
+def reseed(pipette, tube, well, waste, volume):
     pipette.flow_rate.aspirate = 2000
     pipette.flow_rate.dispense = 2000
-    pipette.mix(3, 200, tube.bottom(1), 2)
+    pipette.mix(2, 200, tube.bottom(1), 2)
     pipette.flow_rate.aspirate = 275
     pipette.flow_rate.dispense = 275
-    pipette.transfer(volume, tube.bottom(1), wells, new_tip='never')
+    pipette.transfer(volume, tube.bottom(1), well, new_tip='never')
 
 def run(protocol: protocol_api.ProtocolContext):
     # ========== LOAD LABWARE ==========
@@ -257,7 +257,7 @@ def run(protocol: protocol_api.ProtocolContext):
     attach_plate = protocol.load_labware("corning_24_wellplate_3.4ml_flat", '6')
     attach_plate.set_offset(x=-2.4, y=-0.40, z=-1.10)
 
-    pico_plate = protocol.load_labware("corning_96", '2')
+    pico_plate = protocol.load_labware("corning_96_wellplate_360ul_flat", '2')
     pico_plate.set_offset(x=-2.4, y=-0.40, z=-1.10)
     # Reservoirs and racks
     reservoir = protocol.load_labware("opentrons_10_tuberack_falcon_4x50ml_6x15ml_conical", "7")
@@ -305,6 +305,7 @@ def run(protocol: protocol_api.ProtocolContext):
     reseed_list = reseed_plate.rows()[row_num]
     alymar_list = alymar_plate.rows()[row_num]
     attach_list = attach_plate.rows()[row_num]
+    pico_list = pico_plate.rows()[row_num][:6]
 
     remove_media(pipette, waste, well_list)
     tip_replace(pipette)
@@ -328,15 +329,20 @@ def run(protocol: protocol_api.ProtocolContext):
     protocol.pause("Go spin down the cells, should be 250g at 5 minutes roughly")
 
     resuspend_cells(pipette, media_rpe, waste, tube_list)
+    
     for i in range(6):
         reseed_well = reseed_list[i]
         alymar_well = alymar_list[i]
         attach_well = attach_list[i]
+        pico_well = pico_list[i]
         tube = tube_list[i]
 
-        reseed(pipette, tube, reseed_well, waste, 200)
-        reseed(pipette, tube, alymar_well, waste, 200)
-        reseed(pipette, tube, attach_well, waste, 200)
+        reseed(pipette, tube, reseed_well, waste, 150)
+        reseed(pipette, tube, pico_well, waste, 100)
+        reseed(pipette, tube, alymar_well, waste, 250)
+        reseed(pipette, tube, attach_well, waste, 250)
+    
+
 
 
     '''
@@ -352,6 +358,7 @@ def run(protocol: protocol_api.ProtocolContext):
     reseed_list = reseed_plate.rows()[row_num]
     alymar_list = alymar_plate.rows()[row_num]
     attach_list = attach_plate.rows()[row_num]
+    pico_list = pico_plate.rows()[row_num][:6]
 
     remove_media(pipette, waste, well_list)
     tip_replace(pipette)
@@ -361,7 +368,7 @@ def run(protocol: protocol_api.ProtocolContext):
     tip_replace(pipette)
     home(pipette, waste)
 
-    protocol.pause("Move the plate into the incubator for 5 ish minutes")
+    protocol.pause("Move the plate into the incubator for 10 ish minutes")
 
     add_media(pipette, well_list, media_rpe)
     deattach_mix(pipette, well_list, 800)
@@ -376,12 +383,27 @@ def run(protocol: protocol_api.ProtocolContext):
 
     resuspend_cells(pipette, media_rpe, waste, tube_list)
 
+    for i in range(6):
+        reseed_well = reseed_list[i]
+        alymar_well = alymar_list[i]
+        attach_well = attach_list[i]
+        pico_well = pico_list[i]
+        tube = tube_list[i]
 
-    '''
+        reseed(pipette, tube, reseed_well, waste, 400)
+        reseed(pipette, tube, pico_well, waste, 100)
+        reseed(pipette, tube, alymar_well, waste, 200)
+        reseed(pipette, tube, attach_well, waste, 200)
+
+
+# The following is commented because such cell line does not exist yet
+'''
+
+    
     This is for other Cells. Trypsin will be for 5 minutes in incubator at 37C
     Make sure to set the appropriate media in B1
     No specific media
-    '''
+    
     row_num = 1
     well_list = plate.rows()[row_num]
     tube_list = tiny_tuberack.rows()[row_num]
@@ -389,6 +411,7 @@ def run(protocol: protocol_api.ProtocolContext):
     reseed_list = reseed_plate.rows()[row_num]
     alymar_list = alymar_plate.rows()[row_num]
     attach_list = attach_plate.rows()[row_num]
+    pico_list = pico_plate.rows()[row_num][:6]
 
     remove_media(pipette, waste, well_list)
     tip_replace(pipette)
@@ -413,11 +436,11 @@ def run(protocol: protocol_api.ProtocolContext):
 
     resuspend_cells(pipette, media_rpe, waste, tube_list)
 
-    '''
+    
     This is for other Cells. Trypsin will be for 5 minutes in incubator at 37C
     Make sure to set the appropriate media in B2
     No specific media
-    '''
+    
     row_num = 0
     well_list = plate.rows()[row_num]
     tube_list = tiny_tuberack.rows()[row_num]
@@ -425,6 +448,7 @@ def run(protocol: protocol_api.ProtocolContext):
     reseed_list = reseed_plate.rows()[row_num]
     alymar_list = alymar_plate.rows()[row_num]
     attach_list = attach_plate.rows()[row_num]
+    pico_list = pico_plate.rows()[row_num][:6]
 
     remove_media(pipette, waste, well_list)
     tip_replace(pipette)
@@ -449,3 +473,4 @@ def run(protocol: protocol_api.ProtocolContext):
 
     resuspend_cells(pipette, media_rpe, waste, tube_list)
 
+'''
