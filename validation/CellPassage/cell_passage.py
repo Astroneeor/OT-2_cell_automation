@@ -149,10 +149,17 @@ print("Just functions")
 def home(pipette, waste):
     pipette.move_to(waste.top())
 
-def wash_media(pipette, PBS, waste, well_list):
+def tip_replace(pipette):
+    pipette.drop_tip()
+    pipette.pick_up_tip()
+
+def remove_media(pipette, waste, well_list):
     for well in well_list:
         pipette.aspirate(1000, well.bottom(1))
         pipette.blow_out(waste)
+
+def wash_cells(pipette, PBS, waste, well_list):
+    for well in well_list:
         pipette.transfer(1000, PBS.bottom(5), well.bottom(5), new_tip='never')
         pipette.mix(1, 750, well.bottom(2))
         pipette.aspirate(1000, well.bottom(1))
@@ -164,37 +171,35 @@ def wash_media(pipette, PBS, waste, well_list):
         pipette.aspirate(500, well.bottom(1))
         pipette.blow_out(waste)
 
-
 def add_trypsin(pipette, well_list, waste, trypsin_type=trypsin, volume=200):
     bottom_positions = [well.bottom(5) for well in well_list]
     pipette.distribute(volume, trypsin_type.bottom(3), bottom_positions, new_tip='never')
-    pipette.move_to(waste.top())
 
 def add_media(pipette, well_list, media_type, volume=600):
     bottom_positions = [well.bottom(5) for well in well_list]
     pipette.transfer(volume, media_type.bottom(3), bottom_positions, new_tip='never')
 
-def deattach_mix(pipette, well_list, added_volume=0, height_neg=0):
+def deattach_mix(pipette, well_list, volume=800):
     pipette.flow_rate.aspirate = 2000
     pipette.flow_rate.dispense = 2000
     for well in well_list:
         positions = [
-            well.bottom(1.5 - height_neg),
-            well.bottom(2 - height_neg).move(Point(-6, 6, 0)),
-            well.bottom(2 - height_neg).move(Point(-6, -6, 0)),
-            well.bottom(3 - height_neg).move(Point(-11, 0, 0)),
-            well.bottom(2 - height_neg).move(Point(-9, 4, 0)),
-            well.bottom(2 - height_neg).move(Point(-9, -4, 0)),
-            well.bottom(2 - height_neg).move(Point(-6, 0, 0))
+            well.bottom(1.5),
+            well.bottom(2).move(Point(-6, 6, 0)),
+            well.bottom(2).move(Point(-6, -6, 0)),
+            well.bottom(3).move(Point(-11, 0, 0)),
+            well.bottom(2).move(Point(-9, 4, 0)),
+            well.bottom(2).move(Point(-9, -4, 0)),
+            well.bottom(2).move(Point(-6, 0, 0))
         ]
 
-        pipette.mix(2, 300+added_volume, positions[0], 2)
-        pipette.mix(2, 250+added_volume, positions[1], 2)
-        pipette.mix(2, 250+added_volume, positions[2], 2)
-        pipette.mix(4, 150+added_volume, positions[3], 2)
-        pipette.mix(4, 200+added_volume, positions[4], 2)
-        pipette.mix(4, 200+added_volume, positions[5], 2)
-        pipette.mix(2, 250+added_volume, positions[6], 2)
+        pipette.mix(2, volume - 150, positions[0], 2)
+        pipette.mix(2, volume - 200, positions[1], 2)
+        pipette.mix(2, volume - 200, positions[2], 2)
+        pipette.mix(4, volume - 250, positions[3], 2)
+        pipette.mix(4, volume - 250, positions[4], 2)
+        pipette.mix(4, volume - 250, positions[5], 2)
+        pipette.mix(2, volume - 200, positions[6], 2)
 
         pipette.blow_out(well.bottom(8))
 
@@ -206,30 +211,28 @@ def move_to_tube(pipette, well, tube, waste, amount=1500):
     pipette.mix(2, 800, well.bottom(1), 2)
     pipette.transfer(amount, well.bottom(1), tube.top(), new_tip='never')
     pipette.blow_out(tube.top(-5))
-    pipette.move_to(waste.top())
 
 
-def resuspend_cells(pipette, media, waste, tube, volume=1000):
-    pipette.aspirate(500, tube.bottom(15), rate=0.5)
-    pipette.aspirate(500, tube.bottom(4), rate=0.25)
-    pipette.blow_out(waste.top())
-    pipette.transfer(volume, media.bottom(5), tube.bottom(3), new_tip='never')
-    pipette.flow_rate.aspirate = 2000
-    pipette.flow_rate.dispense = 2000
-    pipette.mix(10, volume - 100, tube.bottom(5), 2)
-    pipette.flow_rate.aspirate = 275
-    pipette.flow_rate.dispense = 275
-    pipette.move_to(waste.top())
+def resuspend_cells(pipette, media_type, waste, tube_list, volume=1000):
+    for tube in tube_list:
+        pipette.aspirate(500, tube.bottom(15), rate=0.5)
+        pipette.aspirate(500, tube.bottom(3), rate=0.25)
+        pipette.blow_out(waste.top())
+        pipette.transfer(volume, media_type.bottom(5), tube.bottom(3), new_tip='never')
+        pipette.flow_rate.aspirate = 2000
+        pipette.flow_rate.dispense = 2000
+        pipette.mix(10, volume - 100, tube.bottom(5), 2)
+        pipette.flow_rate.aspirate = 275
+        pipette.flow_rate.dispense = 275
 
 
-def reseeding(pipette, tube, wells, waste, volume=200):
+def reseed(pipette, tube, wells, waste, volume):
     pipette.flow_rate.aspirate = 2000
     pipette.flow_rate.dispense = 2000
     pipette.mix(3, 200, tube.bottom(1), 2)
     pipette.flow_rate.aspirate = 275
     pipette.flow_rate.dispense = 275
     pipette.transfer(volume, tube.bottom(1), wells, new_tip='never')
-    pipette.move_to(waste.top())
 
 def run(protocol: protocol_api.ProtocolContext):
     # ========== LOAD LABWARE ==========
@@ -245,25 +248,27 @@ def run(protocol: protocol_api.ProtocolContext):
     plate = protocol.load_labware("corning_24wp_z16_8mm_d6_offset", "1")
     plate.set_offset(x=-2.00, y=-0.10, z=-0.10)
 
-    reseed_plate = protocol.load_labware("corning_24_wellplate_3.4ml_flat", '2')
+    reseed_plate = protocol.load_labware("corning_24_wellplate_3.4ml_flat", '4')
     reseed_plate.set_offset(x=-2.4, y=-0.40, z=-1.1)
 
-    alymar_plate = protocol.load_labware("corning_24_wellplate_3.4ml_flat", '2')
+    alymar_plate = protocol.load_labware("corning_24_wellplate_3.4ml_flat", '5')
     alymar_plate.set_offset(x=-2.4, y=-0.40, z=-1.1)
 
-    attach_plate = protocol.load_labware("corning_24_wellplate_3.4ml_flat", '2')
+    attach_plate = protocol.load_labware("corning_24_wellplate_3.4ml_flat", '6')
     attach_plate.set_offset(x=-2.4, y=-0.40, z=-1.10)
 
+    pico_plate = protocol.load_labware("corning_96", '2')
+    pico_plate.set_offset(x=-2.4, y=-0.40, z=-1.10)
     # Reservoirs and racks
-    reservoir = protocol.load_labware("opentrons_10_tuberack_falcon_4x50ml_6x15ml_conical", "5")
+    reservoir = protocol.load_labware("opentrons_10_tuberack_falcon_4x50ml_6x15ml_conical", "7")
     reservoir.set_offset(x=-0.50, y=0.30, z=-1.70)
 
     tiny_tuberack = protocol.load_labware("opentrons_24_tuberack_eppendorf_1.5ml_safelock_snapcap", "3")
     tiny_tuberack.set_offset(x=-0.20, y=0.10, z=1.00)
 
-    waste_beaker = protocol.load_labware("ungrin_reservoir_550ml", "6")
+    waste_beaker = protocol.load_labware("ungrin_reservoir_550ml", "11")
 
-    tiprack = protocol.load_labware("opentrons_96_tiprack_1000ul", "4")
+    tiprack = protocol.load_labware("opentrons_96_tiprack_1000ul", "10")
     tiprack.set_offset(x=-0.30, y=0.10, z=-0.30)
     print("Loaded the labware")
 
@@ -280,7 +285,9 @@ def run(protocol: protocol_api.ProtocolContext):
     PBS = reservoir['A3']
     trypsin = reservoir['C1']
     media_hff = reservoir['B3']
-    media_rpe = reservoir['B4'] 
+    media_rpe = reservoir['B4']
+    alymar_hff = reservoir['A1']
+    alymar_rpe = reservoir['A2']
     waste = waste_beaker.wells()[0]
     print("Liquids Set")
 
@@ -291,11 +298,45 @@ def run(protocol: protocol_api.ProtocolContext):
     Make sure to set the appropriate media in A1
     RPE has a specific media so make sure to use that media
     '''
-    RPE_list = plate.rows()[3]
-    RPE_tubes = tiny_tuberack.rows()[3]
-    wash_media(pipette, PBS, waste, RPE_list)
-    add_trypsin(pipette, RPE_list, waste)
-    protocol.pause("Move the plate into the incubator for 5 minutes")
+    row_num = 3
+    well_list = plate.rows()[row_num]
+    tube_list = tiny_tuberack.rows()[row_num]
+
+    reseed_list = reseed_plate.rows()[row_num]
+    alymar_list = alymar_plate.rows()[row_num]
+    attach_list = attach_plate.rows()[row_num]
+
+    remove_media(pipette, waste, well_list)
+    tip_replace(pipette)
+    wash_cells(pipette, PBS, waste, well_list)
+    tip_replace(pipette)
+    add_trypsin(pipette, well_list, waste)
+    tip_replace(pipette)
+    home(pipette, waste)
+
+    protocol.pause("Move the plate into the incubator for 5 ish minutes")
+
+    add_media(pipette, well_list, media_rpe)
+    deattach_mix(pipette, well_list, 800)
+    deattach_mix(pipette, well_list, 800)
+    for i in range(6):
+        well = well_list[i]
+        tube = tube_list[i]
+        move_to_tube(pipette, well, tube, waste)
+    home(pipette, waste)
+
+    protocol.pause("Go spin down the cells, should be 250g at 5 minutes roughly")
+
+    resuspend_cells(pipette, media_rpe, waste, tube_list)
+    for i in range(6):
+        reseed_well = reseed_list[i]
+        alymar_well = alymar_list[i]
+        attach_well = attach_list[i]
+        tube = tube_list[i]
+
+        reseed(pipette, tube, reseed_well, waste, 200)
+        reseed(pipette, tube, alymar_well, waste, 200)
+        reseed(pipette, tube, attach_well, waste, 200)
 
 
     '''
@@ -303,21 +344,108 @@ def run(protocol: protocol_api.ProtocolContext):
     Make sure to set the appropriate media in A2
     No specific media
     '''
-    HFF_list = plate.rows()[2]
-    HFF_tubes = tiny_tuberack.rows()[2]
+    
+    row_num = 2
+    well_list = plate.rows()[row_num]
+    tube_list = tiny_tuberack.rows()[row_num]
+
+    reseed_list = reseed_plate.rows()[row_num]
+    alymar_list = alymar_plate.rows()[row_num]
+    attach_list = attach_plate.rows()[row_num]
+
+    remove_media(pipette, waste, well_list)
+    tip_replace(pipette)
+    wash_cells(pipette, PBS, waste, well_list)
+    tip_replace(pipette)
+    add_trypsin(pipette, well_list, waste)
+    tip_replace(pipette)
+    home(pipette, waste)
+
+    protocol.pause("Move the plate into the incubator for 5 ish minutes")
+
+    add_media(pipette, well_list, media_rpe)
+    deattach_mix(pipette, well_list, 800)
+    deattach_mix(pipette, well_list, 800)
+    for i in range(6):
+        well = well_list[i]
+        tube = tube_list[i]
+        move_to_tube(pipette, well, tube, waste)
+    home(pipette, waste)
+
+    protocol.pause("Go spin down the cells, should be 250g at 5 minutes roughly")
+
+    resuspend_cells(pipette, media_rpe, waste, tube_list)
+
 
     '''
     This is for other Cells. Trypsin will be for 5 minutes in incubator at 37C
     Make sure to set the appropriate media in B1
     No specific media
     '''
-    I_list = plate.rows()[1]
-    I_tubes = tiny_tuberack.rows()[1]
+    row_num = 1
+    well_list = plate.rows()[row_num]
+    tube_list = tiny_tuberack.rows()[row_num]
+
+    reseed_list = reseed_plate.rows()[row_num]
+    alymar_list = alymar_plate.rows()[row_num]
+    attach_list = attach_plate.rows()[row_num]
+
+    remove_media(pipette, waste, well_list)
+    tip_replace(pipette)
+    wash_cells(pipette, PBS, waste, well_list)
+    tip_replace(pipette)
+    add_trypsin(pipette, well_list, waste)
+    tip_replace(pipette)
+    home(pipette, waste)
+
+    protocol.pause("Move the plate into the incubator for 5 ish minutes")
+
+    add_media(pipette, well_list, media_rpe)
+    deattach_mix(pipette, well_list, 800)
+    deattach_mix(pipette, well_list, 800)
+    for i in range(6):
+        well = well_list[i]
+        tube = tube_list[i]
+        move_to_tube(pipette, well, tube, waste)
+    home(pipette, waste)
+
+    protocol.pause("Go spin down the cells, should be 250g at 5 minutes roughly")
+
+    resuspend_cells(pipette, media_rpe, waste, tube_list)
 
     '''
     This is for other Cells. Trypsin will be for 5 minutes in incubator at 37C
     Make sure to set the appropriate media in B2
     No specific media
     '''
-    II_list = plate.rows()[0]
-    II_tubes = tiny_tuberack.rows()[0]
+    row_num = 0
+    well_list = plate.rows()[row_num]
+    tube_list = tiny_tuberack.rows()[row_num]
+
+    reseed_list = reseed_plate.rows()[row_num]
+    alymar_list = alymar_plate.rows()[row_num]
+    attach_list = attach_plate.rows()[row_num]
+
+    remove_media(pipette, waste, well_list)
+    tip_replace(pipette)
+    wash_cells(pipette, PBS, waste, well_list)
+    tip_replace(pipette)
+    add_trypsin(pipette, well_list, waste)
+    tip_replace(pipette)
+    home(pipette, waste)
+
+    protocol.pause("Move the plate into the incubator for 5 ish minutes")
+
+    add_media(pipette, well_list, media_rpe)
+    deattach_mix(pipette, well_list, 800)
+    deattach_mix(pipette, well_list, 800)
+    for i in range(6):
+        well = well_list[i]
+        tube = tube_list[i]
+        move_to_tube(pipette, well, tube, waste)
+    home(pipette, waste)
+
+    protocol.pause("Go spin down the cells, should be 250g at 5 minutes roughly")
+
+    resuspend_cells(pipette, media_rpe, waste, tube_list)
+
