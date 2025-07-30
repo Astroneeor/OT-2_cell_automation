@@ -49,7 +49,7 @@ print("Setting Liquids")
 PBS = reservoir['A3']
 trypsin = reservoir['A2']
 trypsinEDTA2 = reservoir['C1']
-trypsinEDTA = reservoir['C2']
+trypsinEDTA3 = reservoir['C2']
 media = reservoir['A4']
 resuspended_cells = reservoir['B1']  # Load manually after counting
 waste = waste_thing.wells()[0]  # Use A1 as default
@@ -84,15 +84,14 @@ def home():
 
 def wash_trypsin(well):
     # Remove media for dead cells and wash with PBS twice
+    pipette.aspirate(1000, well.bottom(1))
+    pipette.blow_out(waste)
+    pipette.transfer(1000, PBS.bottom(5), well.bottom(5), new_tip='never')
     pipette.mix(1, 750, well.bottom(2))
     pipette.aspirate(1000, well.bottom(1))
     pipette.blow_out(waste)
     pipette.transfer(1000, PBS.bottom(5), well.bottom(5), new_tip='never')
-    pipette.mix(2, 750, well.bottom(2))
-    pipette.aspirate(1000, well.bottom(1))
-    pipette.blow_out(waste)
-    pipette.transfer(1000, PBS.bottom(5), well.bottom(5), new_tip='never')
-    pipette.mix(2, 750, well.bottom(2))
+    pipette.mix(1, 750, well.bottom(2))
     pipette.aspirate(1000, well.bottom(1))
     pipette.blow_out(waste)
     pipette.aspirate(500, well.bottom(1))
@@ -131,10 +130,9 @@ def move_to_tube(well, tube, amount=1500):
     pipette.mix(2, 800, well.bottom(1), 2)
     pipette.transfer(amount, well.bottom(1), tube.top(), new_tip='never')
     pipette.blow_out(tube.top(-5))
-
     home()
 
-def resuspend_cells(tube, volume=200):
+def resuspend_cells(tube, volume=1000):
     # Resuspend cells in tube
 
     pipette.aspirate(500, tube.bottom(15), rate=0.5)
@@ -143,15 +141,14 @@ def resuspend_cells(tube, volume=200):
     
     pipette.transfer(volume, media.bottom(5), tube.bottom(3), new_tip='never')
     set_fast_speed()
-    pipette.mix(10, 100, tube.bottom(1), 2)
+    pipette.mix(10, volume-100, tube.bottom(1), 2)
     set_default_speed()
-
     home()
 
 def reseeding(tube, well_list, volume=200):
     # Reseed cells into well
-    set_default_speed()
+    set_fast_speed()
     pipette.mix(3, 200, tube.bottom(1), 2)
+    set_default_speed()
     pipette.transfer(volume, tube.bottom(1), well_list.bottom(1), new_tip='never')
-
     home()
