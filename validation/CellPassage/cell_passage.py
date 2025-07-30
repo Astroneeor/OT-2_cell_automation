@@ -130,7 +130,7 @@ DEFAULT_ASPIRATE = 275.0
 DEFAULT_DISPENSE = 275.0
 DEFAULT_BLOW_OUT = 1000.0
 
-def set_default_speed():
+def set_default_speed(pipette):
     pipette.flow_rate.aspirate = DEFAULT_ASPIRATE
     pipette.flow_rate.dispense = DEFAULT_DISPENSE
     pipette.flow_rate.blow_out = DEFAULT_BLOW_OUT
@@ -138,7 +138,7 @@ def set_default_speed():
 FAST_ASPIRATE = 2000.0
 FAST_DISPENSE = 2000.0
 
-def set_fast_speed():
+def set_fast_speed(pipette):
     pipette.flow_rate.aspirate = FAST_ASPIRATE
     pipette.flow_rate.dispense = FAST_DISPENSE
     pipette.flow_rate.blow_out = DEFAULT_BLOW_OUT
@@ -149,48 +149,55 @@ print("Just functions")
 def home(pipette, waste):
     pipette.move_to(waste.top())
 
-def wash_pbs(pipette, PBS, waste, well):
-    pipette.aspirate(1000, well.bottom(1))
-    pipette.blow_out(waste)
-    pipette.transfer(1000, PBS.bottom(5), well.bottom(5), new_tip='never')
-    pipette.mix(1, 750, well.bottom(2))
-    pipette.aspirate(1000, well.bottom(1))
-    pipette.blow_out(waste)
-    pipette.transfer(1000, PBS.bottom(5), well.bottom(5), new_tip='never')
-    pipette.mix(1, 750, well.bottom(2))
-    pipette.aspirate(1000, well.bottom(1))
-    pipette.blow_out(waste)
+def wash_media(pipette, PBS, waste, well_list):
+    for well in well_list:
+        pipette.aspirate(1000, well.bottom(1))
+        pipette.blow_out(waste)
+        pipette.transfer(1000, PBS.bottom(5), well.bottom(5), new_tip='never')
+        pipette.mix(1, 750, well.bottom(2))
+        pipette.aspirate(1000, well.bottom(1))
+        pipette.blow_out(waste)
+        pipette.transfer(1000, PBS.bottom(5), well.bottom(5), new_tip='never')
+        pipette.mix(1, 750, well.bottom(2))
+        pipette.aspirate(1000, well.bottom(1))
+        pipette.blow_out(waste)
+        pipette.aspirate(500, well.bottom(1))
+        pipette.blow_out(waste)
 
 
-def add_trypsin(pipette, trypsin_type, well, waste, volume=500):
-    pipette.transfer(volume, trypsin_type.bottom(3), well.bottom(5), new_tip='never')
+def add_trypsin(pipette, well_list, waste, trypsin_type=trypsin, volume=200):
+    bottom_positions = [well.bottom(5) for well in well_list]
+    pipette.distribute(volume, trypsin_type.bottom(3), bottom_positions, new_tip='never')
     pipette.move_to(waste.top())
 
+def add_media(pipette, well_list, media_type, volume=600):
+    bottom_positions = [well.bottom(5) for well in well_list]
+    pipette.transfer(volume, media_type.bottom(3), bottom_positions, new_tip='never')
 
-def deattach_mix(pipette, well, added_volume=0, height_neg=0):
-    positions = [
-        well.bottom(1.5 - height_neg),
-        well.bottom(2 - height_neg).move(Point(-6, 6, 0)),
-        well.bottom(2 - height_neg).move(Point(-6, -6, 0)),
-        well.bottom(3 - height_neg).move(Point(-11, 0, 0)),
-        well.bottom(2 - height_neg).move(Point(-9, 4, 0)),
-        well.bottom(2 - height_neg).move(Point(-9, -4, 0)),
-        well.bottom(2 - height_neg).move(Point(-6, 0, 0))
-    ]
-
+def deattach_mix(pipette, well_list, added_volume=0, height_neg=0):
     pipette.flow_rate.aspirate = 2000
     pipette.flow_rate.dispense = 2000
+    for well in well_list:
+        positions = [
+            well.bottom(1.5 - height_neg),
+            well.bottom(2 - height_neg).move(Point(-6, 6, 0)),
+            well.bottom(2 - height_neg).move(Point(-6, -6, 0)),
+            well.bottom(3 - height_neg).move(Point(-11, 0, 0)),
+            well.bottom(2 - height_neg).move(Point(-9, 4, 0)),
+            well.bottom(2 - height_neg).move(Point(-9, -4, 0)),
+            well.bottom(2 - height_neg).move(Point(-6, 0, 0))
+        ]
 
-    pipette.mix(2, 300+added_volume, positions[0], 2)
-    pipette.mix(2, 250+added_volume, positions[1], 2)
-    pipette.mix(2, 250+added_volume, positions[2], 2)
-    pipette.mix(4, 150+added_volume, positions[3], 2)
-    pipette.mix(4, 200+added_volume, positions[4], 2)
-    pipette.mix(4, 200+added_volume, positions[5], 2)
-    pipette.mix(2, 250+added_volume, positions[6], 2)
+        pipette.mix(2, 300+added_volume, positions[0], 2)
+        pipette.mix(2, 250+added_volume, positions[1], 2)
+        pipette.mix(2, 250+added_volume, positions[2], 2)
+        pipette.mix(4, 150+added_volume, positions[3], 2)
+        pipette.mix(4, 200+added_volume, positions[4], 2)
+        pipette.mix(4, 200+added_volume, positions[5], 2)
+        pipette.mix(2, 250+added_volume, positions[6], 2)
 
-    pipette.blow_out(well.bottom(7))
-    pipette.blow_out(well.bottom(7))
+        pipette.blow_out(well.bottom(8))
+
     pipette.flow_rate.aspirate = 275
     pipette.flow_rate.dispense = 275
 
@@ -239,7 +246,13 @@ def run(protocol: protocol_api.ProtocolContext):
     plate.set_offset(x=-2.00, y=-0.10, z=-0.10)
 
     reseed_plate = protocol.load_labware("corning_24_wellplate_3.4ml_flat", '2')
-    reseed_plate.set_offset(x=-2.4, y=-0.40, z=-1.40)
+    reseed_plate.set_offset(x=-2.4, y=-0.40, z=-1.1)
+
+    alymar_plate = protocol.load_labware("corning_24_wellplate_3.4ml_flat", '2')
+    alymar_plate.set_offset(x=-2.4, y=-0.40, z=-1.1)
+
+    attach_plate = protocol.load_labware("corning_24_wellplate_3.4ml_flat", '2')
+    attach_plate.set_offset(x=-2.4, y=-0.40, z=-1.10)
 
     # Reservoirs and racks
     reservoir = protocol.load_labware("opentrons_10_tuberack_falcon_4x50ml_6x15ml_conical", "5")
@@ -271,31 +284,40 @@ def run(protocol: protocol_api.ProtocolContext):
     waste = waste_beaker.wells()[0]
     print("Liquids Set")
 
-    # ========== DEFINE PLATE WELLS ==========
-    well_list = []
-    
-    
 
     # Add your protocol steps here
     '''
     This is for RPE Cells. Trypsin will be for 5 minutes in incubator at 37C
     Make sure to set the appropriate media in A1
+    RPE has a specific media so make sure to use that media
     '''
+    RPE_list = plate.rows()[3]
+    RPE_tubes = tiny_tuberack.rows()[3]
+    wash_media(pipette, PBS, waste, RPE_list)
+    add_trypsin(pipette, RPE_list, waste)
+    protocol.pause("Move the plate into the incubator for 5 minutes")
 
 
     '''
     This is for HFF Cells. Trypsin will be for roughly 8 minutes in incubator at 37C
     Make sure to set the appropriate media in A2
+    No specific media
     '''
-    
+    HFF_list = plate.rows()[2]
+    HFF_tubes = tiny_tuberack.rows()[2]
 
     '''
     This is for other Cells. Trypsin will be for 5 minutes in incubator at 37C
     Make sure to set the appropriate media in B1
+    No specific media
     '''
-
+    I_list = plate.rows()[1]
+    I_tubes = tiny_tuberack.rows()[1]
 
     '''
     This is for other Cells. Trypsin will be for 5 minutes in incubator at 37C
     Make sure to set the appropriate media in B2
+    No specific media
     '''
+    II_list = plate.rows()[0]
+    II_tubes = tiny_tuberack.rows()[0]
