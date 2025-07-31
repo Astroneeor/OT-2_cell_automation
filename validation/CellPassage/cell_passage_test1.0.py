@@ -125,6 +125,8 @@ metadata = {
     "author": "Neeor is not cooking"
 }
 
+requirements = {"robotType": "OT-2", "apiLevel": "2.22"}
+
 # ========== NEED FOR SPEED ==========
 DEFAULT_ASPIRATE = 275.0
 DEFAULT_DISPENSE = 275.0
@@ -171,7 +173,7 @@ def wash_cells(pipette, PBS, waste, well_list):
         pipette.aspirate(500, well.bottom(1))
         pipette.blow_out(waste)
 
-def add_trypsin(pipette, well_list, waste, trypsin_type=trypsin, volume=200):
+def add_trypsin(pipette, well_list, waste, trypsin_type, volume=200):
     bottom_positions = [well.bottom(5) for well in well_list]
     pipette.distribute(volume, trypsin_type.bottom(3), bottom_positions, new_tip='never')
 
@@ -226,7 +228,7 @@ def resuspend_cells(pipette, media_type, waste, tube_list, volume=1000):
         pipette.flow_rate.dispense = 275
 
 
-def reseed(pipette, tube, well, waste, volume):
+def reseed(pipette, tube, well, volume):
     pipette.flow_rate.aspirate = 2000
     pipette.flow_rate.dispense = 2000
     pipette.mix(2, 200, tube.bottom(1), 2)
@@ -237,6 +239,7 @@ def reseed(pipette, tube, well, waste, volume):
 def run(protocol: protocol_api.ProtocolContext):
     # ========== LOAD LABWARE ==========
     print("Started loading labware")
+    STARTING_TIP = protocol.params.starting_tip
 
     # Depth 0 plate
     '''
@@ -246,38 +249,38 @@ def run(protocol: protocol_api.ProtocolContext):
 
     # Normal Depth plate (no scraping)
     plate = protocol.load_labware("corning_24wp_z16_8mm_d6_offset", "1")
+    plate = protocol.load_labware("corning_24_wellplate_3.4ml_flat", "1")
     plate.set_offset(x=-2.00, y=-0.10, z=-0.10)
 
     reseed_plate = protocol.load_labware("corning_24_wellplate_3.4ml_flat", '4')
-    reseed_plate.set_offset(x=-2.4, y=-0.40, z=-1.1)
+    reseed_plate.set_offset(x=-2.4, y=1.1, z=-1.1)
 
     alymar_plate = protocol.load_labware("corning_24_wellplate_3.4ml_flat", '5')
-    alymar_plate.set_offset(x=-2.4, y=-0.40, z=-1.1)
+    alymar_plate.set_offset(x=-2.4, y=1.1, z=-1.1)
 
     attach_plate = protocol.load_labware("corning_24_wellplate_3.4ml_flat", '6')
-    attach_plate.set_offset(x=-2.4, y=-0.40, z=-1.10)
+    attach_plate.set_offset(x=-2.4, y=1.1, z=-1.1)
 
     pico_plate = protocol.load_labware("corning_96_wellplate_360ul_flat", '2')
-    pico_plate.set_offset(x=-2.4, y=-0.40, z=-1.10)
+    pico_plate.set_offset(x=-0.2, y=0.7, z=0)
+
     # Reservoirs and racks
     reservoir = protocol.load_labware("opentrons_10_tuberack_falcon_4x50ml_6x15ml_conical", "7")
-    reservoir.set_offset(x=-0.50, y=0.30, z=-1.70)
+    reservoir.set_offset(x=0.4, y=0.70, z=-1.40)
 
     tiny_tuberack = protocol.load_labware("opentrons_24_tuberack_eppendorf_1.5ml_safelock_snapcap", "3")
     tiny_tuberack.set_offset(x=-0.20, y=0.10, z=1.00)
 
     waste_beaker = protocol.load_labware("ungrin_reservoir_550ml", "11")
+    waste_beaker = protocol.load_labware("nest_1_reservoir_290ml", "11")
 
     tiprack = protocol.load_labware("opentrons_96_tiprack_1000ul", "10")
-    tiprack.set_offset(x=-0.30, y=0.10, z=-0.30)
+    tiprack.set_offset(x=-0.30, y=0.10, z=0)
     print("Loaded the labware")
 
     # ========== LOAD PIPETTE ==========
-    pipette = protocol.load_instrument("p1000_single_gen2",
-                                       "left",
-                                       tip_racks=[tiprack],
-                                       starting_tip=protocol.parameters['starting_tip']
-                                       )
+    pipette = protocol.load_instrument("p1000_single_gen2", "left", tip_racks=[tiprack])
+    pipette.starting_tip = tiprack.wells_by_name()[STARTING_TIP]
     print("Pipette is armed")
 
     # ========== DEFINE REAGENTS ==========
@@ -307,11 +310,13 @@ def run(protocol: protocol_api.ProtocolContext):
     attach_list = attach_plate.rows()[row_num]
     pico_list = pico_plate.rows()[row_num][:6]
 
+    pipette.pick_up_tip()
+
     remove_media(pipette, waste, well_list)
     tip_replace(pipette)
     wash_cells(pipette, PBS, waste, well_list)
     tip_replace(pipette)
-    add_trypsin(pipette, well_list, waste)
+    add_trypsin(pipette, well_list, waste, trypsin)
     tip_replace(pipette)
     home(pipette, waste)
 
@@ -337,13 +342,21 @@ def run(protocol: protocol_api.ProtocolContext):
         pico_well = pico_list[i]
         tube = tube_list[i]
 
-        reseed(pipette, tube, reseed_well, waste, 150)
-        reseed(pipette, tube, pico_well, waste, 100)
-        reseed(pipette, tube, alymar_well, waste, 250)
-        reseed(pipette, tube, attach_well, waste, 250)
-    
+        reseed(pipette, tube, reseed_well, 150)
+        reseed(pipette, tube, pico_well, 100)
+        reseed(pipette, tube, alymar_well, 250)
+        reseed(pipette, tube, attach_well, 250)
 
+    tip_replace(pipette)
 
+    reseed_positions = [reseed.bottom(5) for reseed in reseed_list]
+    alymar_positions = [alymar.bottom(5) for alymar in alymar_list]
+    attach_positions = [attach.bottom(5) for attach in attach_list]
+    pipette.transfer(350, media_rpe, reseed_positions, new_tip='never')
+    pipette.transfer(250, media_rpe, alymar_positions, new_tip='never')
+    pipette.transfer(250, media_rpe, attach_positions, new_tip='never')
+
+    tip_replace(pipette)
 
     '''
     This is for HFF Cells. Trypsin will be for roughly 8 minutes in incubator at 37C
@@ -362,15 +375,18 @@ def run(protocol: protocol_api.ProtocolContext):
 
     remove_media(pipette, waste, well_list)
     tip_replace(pipette)
+
     wash_cells(pipette, PBS, waste, well_list)
     tip_replace(pipette)
-    add_trypsin(pipette, well_list, waste)
+
+    add_trypsin(pipette, well_list, waste, trypsin)
     tip_replace(pipette)
+
     home(pipette, waste)
 
     protocol.pause("Move the plate into the incubator for 10 ish minutes")
 
-    add_media(pipette, well_list, media_rpe)
+    add_media(pipette, well_list, media_hff)
     deattach_mix(pipette, well_list, 800)
     deattach_mix(pipette, well_list, 800)
     for i in range(6):
@@ -381,7 +397,7 @@ def run(protocol: protocol_api.ProtocolContext):
 
     protocol.pause("Go spin down the cells, should be 250g at 5 minutes roughly")
 
-    resuspend_cells(pipette, media_rpe, waste, tube_list)
+    resuspend_cells(pipette, media_hff, waste, tube_list)
 
     for i in range(6):
         reseed_well = reseed_list[i]
@@ -390,10 +406,20 @@ def run(protocol: protocol_api.ProtocolContext):
         pico_well = pico_list[i]
         tube = tube_list[i]
 
-        reseed(pipette, tube, reseed_well, waste, 400)
-        reseed(pipette, tube, pico_well, waste, 100)
-        reseed(pipette, tube, alymar_well, waste, 200)
-        reseed(pipette, tube, attach_well, waste, 200)
+        reseed(pipette, tube, reseed_well, 400)
+        reseed(pipette, tube, pico_well, 100)
+        reseed(pipette, tube, alymar_well, 200)
+        reseed(pipette, tube, attach_well, 200)
+
+    tip_replace(pipette)
+
+    reseed_positions = [reseed.bottom(5) for reseed in reseed_list]
+    alymar_positions = [alymar.bottom(5) for alymar in alymar_list]
+    attach_positions = [attach.bottom(5) for attach in attach_list]
+
+    pipette.transfer(350, media_hff, reseed_positions, new_tip='never')
+    pipette.transfer(250, media_hff, alymar_positions, new_tip='never')
+    pipette.transfer(250, media_hff, attach_positions, new_tip='never')
 
 
 # The following is commented because such cell line does not exist yet
